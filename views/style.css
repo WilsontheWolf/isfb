@@ -1,0 +1,48 @@
+body {
+  background-color: #aaaaaa;
+  text-align: center;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-size: 500%;
+}
+
+p {
+  color: white;
+  text-align: center;
+  font-size: 125%;
+}
+
+ul {
+  color: white;
+  text-align: center;
+  font-size: 125%;
+}
+
+li {
+  color: white;
+  text-align: center;
+  font-size: 125%;
+}
+
+li.h {
+  list-style-type: none;
+}
+img {
+  padding: 10px;
+  border-radius: 16px;
+}
+#header {
+  margin: auto;
+  width: 90%;
+  border-radius: 6px;
+  background-color: #383838;
+}
+#body {
+  margin: auto;
+  width: 90%;
+  border-radius: 6px;
+  background-color: #515151;
+}
