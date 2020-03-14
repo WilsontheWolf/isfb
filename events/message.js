@@ -6,7 +6,7 @@ const endless = ["endless", "end less"];
 const sandbox = ["sandbox", "sand box", "creative"]
 const responce = async (msg, id, client) => {
   if (msg.author.id == id) return;
-  if (msg.channel.id == "674937391529590784" || message.channel.id == '516624854066135050') return;
+  if (msg.channel.id == "674937391529590784" || msg.channel.id == '516624854066135050') return;
   if (msg.author.bot) return;
   let message;
   let content = msg.content.toLowerCase();
