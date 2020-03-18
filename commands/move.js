@@ -31,7 +31,7 @@ exports.run = async (client, message, args, level) => {
       .setAuthor(msg.member.displayName, msg.author.avatarURL)
       .setDescription(msg.content)
       .setTimestamp(msg.createdTimestamp)
-      .setColor('RANDOM')
+      .setColor(msg.member.displayHexColor)
       if(msg.attachments.first()) e.setImage(msg.attachments.first().url)
       if(msg.embeds[0] && msg.embeds[0].type == 'image') e.setImage(msg.embeds[0].url)
       embeds.unshift(e)
