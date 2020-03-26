@@ -24,6 +24,7 @@ const responce = async (msg, id, client) => {
       !tech.includes(msg.content)
     )
       return;
+    if(content.includes('technically')) return
     message = await msg.channel.send(
       `You can no longer just place tech in items. The new way to do this is to put the item in the __output__ (bottom) section of the forge. Then you place the tech in the __input__ (upper) section. After that, click the "forge" button and the tech will be infused into the item. Tech infusion is irreversible, so be smart about what you infuse. Certain tech will not affect certain items, like trying to infuse an energy cycler (reduces energy use by 1) into a sand block.`
     );

@@ -16,22 +16,26 @@ exports.run = async (client, message, args, level) => {
       );
     let dmessages;
     let msg
-    msg = await message.channel.fetchMessage(args[0]).catch()
-    console.log(msg)
-    if (amount > 100 || amount < 1 && !msg)
+    try{msg = await message.channel.fetchMessage(args[0])} catch(e){}
+    console.log(amount,!!msg,!msg && amount > 100 || amount < 1)
+    if (!msg && amount > 100 || amount < 1)
       return message.channel.send("Enter a number between 1 - 100");
     let channel = message.mentions.channels.first();
     if (!channel) return message.channel.send("Please mention a channel.");
-    await message.delete();
+    if(!msg) await message.delete();
     let msgs
     if(!msg)
       msgs = await message.channel.fetchMessages({ limit: amount });
     else {
-      msgs = await message.channel.fetchMessages({after: args[0], limit:10})
+      msgs = await message.channel.fetchMessages({after: args[0], limit:100})
       while(!msgs.has(message.channel.lastMessageID)){
-        let m = await message.channel.fetchMessages({after: msgs.first().id, limit:10})
-        msgs.concat(m)
+        let m = await message.channel.fetchMessages({after: msgs.first().id, limit:100})
+        msgs = m.concat(msgs)
       }
+    }
+    if(msg) {
+      await message.delete();
+      msgs.delete(message.channel.lastMessageID)
     }
     let hooks = await channel.fetchWebhooks();
     let hook;
@@ -50,10 +54,6 @@ exports.run = async (client, message, args, level) => {
     let errors = 0;
     let embeds = [];
     let embed = Discord.RichEmbed;
-    await hook.edit(
-      `Messages moved from #${message.channel.name}`,
-      "https://cdn.discordapp.com/icons/501043184361537547/a_b8f8ec6f1b3c2a6e1ae2d7d8ad59cd39.jpg"
-    );
     msgs.forEach(async msg => {
       // make this a for loop
       try {
@@ -73,7 +73,8 @@ exports.run = async (client, message, args, level) => {
     });
     while (embeds.length > 0) {
       let e = embeds.splice(0, 10); //ten embeds per message
-      hook.send({ embeds: e });
+      hook.send({ embeds: e, name: `Messages moved from #${message.channel.name}`, avatarURL:
+"https://cdn.discordapp.com/icons/501043184361537547/a_b8f8ec6f1b3c2a6e1ae2d7d8ad59cd39.jpg" });
     }
     message.channel.bulkDelete(msgs);
     message.channel.send(
@@ -82,7 +83,6 @@ exports.run = async (client, message, args, level) => {
     let sentMessage = await message.channel.send(
       ` \`${msgs.size}\` messages moved.`
     );
-    hook.edit(originals[0], originals[1]);
     await client.wait(3000);
     sentMessage.delete();
   } catch (e) {
