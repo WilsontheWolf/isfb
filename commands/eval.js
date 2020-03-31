@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const enmap = require("enmap");
 exports.run = async (client, message, args, level) => {
-  let flags = [];
   let silent = false;
   if (message.flags.includes("s")) {
     silent = true;
