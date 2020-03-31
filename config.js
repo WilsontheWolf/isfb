@@ -44,9 +44,13 @@ const config = {
 
   permLevels: [
     { level: 0, name: "User", check: () => true },
-
+    { level: 0, 
+     name: "Recruit", 
+     check: message => {
+     
+    }},
     {
-      level: 2,
+      level: 5,
       name: "Moderator",
       check: message => {
         try {
@@ -61,7 +65,7 @@ const config = {
     },
 
     {
-      level: 3,
+      level: 6,
       name: "Administrator",
       check: message => {
         try {
@@ -77,7 +81,7 @@ const config = {
     },
 
     {
-      level: 4,
+      level: 7,
       name: "Server Owner",
       check: message =>
         message.channel.type === "text"
