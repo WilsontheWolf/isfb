@@ -73,7 +73,7 @@ exports.run = async (client, message, args, level) => {
     });
     while (embeds.length > 0) {
       let e = embeds.splice(0, 10); //ten embeds per message
-      hook.send({ embeds: e, name: `Messages moved from #${message.channel.name}`, avatarURL:
+      hook.send({ embeds: e, username: `Messages moved from #${message.channel.name}`, avatarURL:
 "https://cdn.discordapp.com/icons/501043184361537547/a_b8f8ec6f1b3c2a6e1ae2d7d8ad59cd39.jpg" });
     }
     message.channel.bulkDelete(msgs);
