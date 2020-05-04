@@ -58,7 +58,7 @@ exports.run = async (client, message, args, level) => {
       // make this a for loop
       try {
         let e = new embed()
-        .setAuthor(msg.member.displayName, msg.author.avatarURL)
+        .setAuthor(msg.member.displayName, msg.author.displayAvatarURL)
         .setDescription(msg.content)
         .setTimestamp(msg.createdTimestamp)
         .setColor(msg.member.displayHexColor);
