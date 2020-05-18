@@ -2,7 +2,7 @@ const submit = (sub, e, o) => {
   let dups = 0;
   sub.forEach(s => {
     if (!check(s, e)) return dups++
-    e.set(e.autonum, {
+    e.set(e.count + 1, {
       type: "black",
       owner: o,
       value: s
@@ -20,9 +20,10 @@ exports.run = async (client, message, args, level) => {
   if (!args[0]) return message.reply("please put your submission.");
   let submissions = args.join(" ").split("\n");
   let r = submit(submissions, client.cards, message.author.id);
-  if(r) return message.reply(`${r} ${submissions.size == 1 ? 'submisson' : 'of your submissions'} was flagged as a duplicate and not submitted!
-I've submitted the other ${submissions.size - r} submission${submissions.size - r == 1 ? 's' : ''}`);
-  message.reply("I've submitted your cards.")
+  let m = `I've submitted your card${submissions.length == 1 ? '' : 's'}.`
+  if(r) m =`${r} ${submissions.length == 1 ? 'submisson' : 'of your submissions'} was flagged as a duplicate and not submitted!`
+  if(submissions.length - r) m +=`I've submitted the other ${submissions.length - r} submission${submissions.length - r == 1 ? '' : 's'}.`
+  message.reply(m)
 };
 
 exports.conf = {
