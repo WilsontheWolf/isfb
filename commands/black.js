@@ -12,8 +12,8 @@ const submit = (sub, e, o) => {
   return stats
 };
 const check = (v, e) => {
-  let f = v.toLowerCase().trim().replace(/_/g, "").replace(/./g, "").replace(/\?/g, "").replace(/!/g, "");
-  let exists = e.find(p => p.value.toLowerCase().trim().replace(/_/g, "").replace(/./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
+  let f = v.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "");
+  let exists = e.find(p => p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
   return !exists
 };
 
@@ -21,7 +21,8 @@ exports.run = async (client, message, args, level) => {
   if (!args[0]) return message.reply("please put your submission");
   let submissions = args.join(" ").split("\n");
   let r = submit(submissions, client.cards, message.author.id);
-  if(stats.has(''))
+  if(r.includes('dup')) return message.reply('one or more of your submissions was flagged as a duplicate and not submitted!');
+  message.reply("I've submitted your cards.")
 };
 
 exports.conf = {
