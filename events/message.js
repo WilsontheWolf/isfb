@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const disallowedChannels = ['516624854066135050'];
+const disallowedChannels = [];
 const tech = [/*"tech", "forge"*/];
 const test = [/*"test update", "beta version", "tester", "test version"*/];
 const endless = [/*"endless", "end less"*/];
@@ -84,10 +84,7 @@ The endless mode will __probably__ come after that, in 2020.`
 module.exports = async (client, message) => {
   if (message.author.bot && message.guild.id != "519997113648676879") return;
   if (message.guild)
-    if (
-      message.guild.id == "501043184361537547" &&
-      disallowedChannels.includes(message.channel.id)
-    )
+    if (message.guild.id == "501043184361537547" && disallowedChannels.includes(message.channel.id))
       return responce(message, client.user.id, client);
   const settings = (message.settings =
     client.getSettings(message.guild) || client.settings.get("default"));

@@ -4,7 +4,7 @@ const submit = (sub, e, o) => {
     if (!check(s, e)) return dups++
     if (!s) return
     e.set(e.count + 1, {
-      type: "black",
+      type: "white",
       owner: o,
       value: s
     });
@@ -13,7 +13,7 @@ const submit = (sub, e, o) => {
 };
 const check = (v, e) => {
   let f = v.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "");
-  let exists = e.find(p => p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f && p.type == 'black');
+  let exists = e.find(p => p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f && p.type == 'white');
   return !exists
 };
 
@@ -36,9 +36,9 @@ exports.conf = {
 };
 
 exports.help = {
-  name: "black",
+  name: "white",
   category: "IIslands Against Jwiggs",
   description:
-    "Submit a black card. Several can be submitted by seperating them with a new line.",
-  usage: "black [submissons]"
+    "Submit a white card. Several can be submitted by seperating them with a new line.",
+  usage: "white [submissons]"
 };
