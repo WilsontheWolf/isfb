@@ -27,8 +27,10 @@ client.ids = new Enmap();
 
 client.settings = new Enmap({ name: "settings" });
 client.saves = new Enmap({ name: "saves" });
-client.cooldowns = new Enmap({ name: "cooldowns"})
+client.cooldowns = new Enmap({ name: "cooldowns"});
 client.reminders = new Enmap({ name: "reminders" });
+client.cards = new Enmap({name: 'cards'});
+
 
 const init = async () => {
   const cmdFiles = await readdir("./commands/");
