@@ -7,17 +7,21 @@ const submit = (sub, e, o) => {
       owner: o,
       value: s
     });
-    
+    stats.push('ok')
   });
+  return stats
 };
 const check = (v, e) => {
-  let f = v.toLowerCase().replace(/_/g, "");
+  let f = v.toLowerCase().trim().replace(/_/g, "").replace(/./g, "").replace(/\?/g, "").replace(/!/g, "");
+  let exists = e.find(p => p.value.toLowerCase().trim().replace(/_/g, "").replace(/./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
+  return !exists
 };
 
 exports.run = async (client, message, args, level) => {
   if (!args[0]) return message.reply("please put your submission");
   let submissions = args.join(" ").split("\n");
-  submit(submissions, client.cards, message.author.id);
+  let r = submit(submissions, client.cards, message.author.id);
+  if(stats.has(''))
 };
 
 exports.conf = {
