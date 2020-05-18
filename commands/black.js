@@ -31,13 +31,13 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: [],
-  permLevel: "Bot Owner",
-  hidden: true
+  permLevel: "User",
+  hidden: false
 };
 
 exports.help = {
   name: "black",
-  category: "IIslands Against Jwiggs",
+  category: "Islands Against Jwiggs",
   description:
     "Submit a black card. Several can be submitted by seperating them with a new line.",
   usage: "black [submissons]"
