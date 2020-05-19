@@ -23,7 +23,7 @@ exports.run = async (client, message, args, level) => {
   }
   let bName = `Unknown User (${black.owner})`
   if(client.users.has(black.owner)) bName = client.users.get(black.owner).username
-  message.cgabbe.send(`${black.value}
+  message.channel.send(`${black.value}
 Black submitted by ${bName}. White submitted by ${white[0] ? white.map(w => w.name).join(', ') : 'noone'}`)  
 };
 
