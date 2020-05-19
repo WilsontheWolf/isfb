@@ -1,4 +1,5 @@
 exports.run = async (client, message, args, level) => {
+  let regex = /\({0,1}_+\){0,1}/
   let black = client.cards.filter(c => c.type == 'black').random() 
   let white = client.cards.filter(c => c.type == 'white').random()
   let bName = `Unknown User (${black.owner})`
