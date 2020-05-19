@@ -4,7 +4,13 @@ exports.run = async (client, message, args, level) => {
     return ((str || '').match(re) || []).length
   }
   let regex = /\({0,1}_+\){0,1}/
-  let black = client.cards.filter(c => c.type == 'black').random() 
+  let black
+  if(!args[0]) black = client.cards.filter(c => c.type == 'black').random() 
+  else black = {
+    type: 'black',
+    owner: message.author.id,
+    value: args.join(' ')
+  }
   let whites = count(black.value)
   let white = []
   for(let i = 0; i < whites;i++){
