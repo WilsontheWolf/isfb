@@ -3,7 +3,8 @@ const submit = (sub, e, o) => {
   sub.forEach(s => {
     if (!check(s, e)) return dups++
     if (!s) return
-    e.set(e.count + 1, {
+    e.inc('count')
+    e.set(e.get('count') + 1, {
       type: "black",
       owner: o,
       value: s
@@ -13,7 +14,7 @@ const submit = (sub, e, o) => {
 };
 const check = (v, e) => {
   let f = v.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "");
-  let exists = e.find(p => p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f && p.type == 'black');
+  let exists = e.find(p => p.type == 'black' && p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
   return !exists
 };
 
