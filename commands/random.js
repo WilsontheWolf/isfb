@@ -1,13 +1,24 @@
 exports.run = async (client, message, args, level) => {
+  const count = (str) => {
+    const re =  /\({0,1}_+\){0,1}/g
+    return ((str || '').match(re) || []).length
+  }
   let regex = /\({0,1}_+\){0,1}/
   let black = client.cards.filter(c => c.type == 'black').random() 
-  let white = client.cards.filter(c => c.type == 'white').random()
+  let whites = count(black.value)
+  let white = []
+  for(let i = 0; i < whites;i++){
+    let w = client.cards.filter(c => c.type == 'white').random()
+    w.name = `Unknown User (${w.owner})`
+    if(client.users.has(w.owner)) w.name = client.users.get(w.owner).username
+    white.push(w)
+    black.value = black.value.replace(regex, w.value)
+    console.log(white)
+  }
   let bName = `Unknown User (${black.owner})`
   if(client.users.has(black.owner)) bName = client.users.get(black.owner).username
-  let wName = `Unknown User (${white.owner})`
-  if(client.users.has(black.owner)) wName = client.users.get(white.owner).username
-  message.channel.send(`Black submitted by ${bName}: ${black.value}
-White submitted by ${wName}: ${white.value}`)  
+  message.channel.send(`${black.value}
+Black submitted by: ${bName}. White submitted by ${white[0] ? white.map(w => return )}: ${white.value}`)  
 };
 
 exports.conf = {
