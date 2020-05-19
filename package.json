@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "11.15"
+    "node": "12"
   },
   "author": "WilsonTheWolf",
   "contributors": [
