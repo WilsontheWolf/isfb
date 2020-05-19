@@ -6,7 +6,7 @@ const submit = (sub, e, o) => {
     e.set(e.count + 1, {
       type: "white",
       owner: o,
-      value: s
+      value: s.replace(/_/g, "")
     });
   });
   return dups
