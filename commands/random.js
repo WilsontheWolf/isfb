@@ -21,6 +21,13 @@ exports.run = async (client, message, args, level) => {
     black.value = black.value.replace(regex, w.value)
     console.log(white)
   }
+  if(!whites) {
+    let w = client.cards.filter(c => c.type == 'white').random()
+    w.name = `Unknown User (${w.owner})`
+    if(client.users.has(w.owner)) w.name = client.users.get(w.owner).username
+    white.push(w)
+    black.value += ' ' + w.value
+  }
   let bName = `Unknown User (${black.owner})`
   if(client.users.has(black.owner)) bName = client.users.get(black.owner).username
   message.channel.send(`${black.value}
