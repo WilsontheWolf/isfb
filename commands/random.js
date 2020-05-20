@@ -25,8 +25,6 @@ exports.run = async (client, message, args, level) => {
     if(client.users.has(w.owner)) w.name = client.users.get(w.owner).username
     white.push(w)
     black.value = black.value.replace(regex, w.value)
-    console.log(i)
-    console.log(white)
   }
   if(!whites) {
     let w = client.cards.filter(c => c.type == 'white').random()
@@ -41,7 +39,7 @@ exports.run = async (client, message, args, level) => {
   .setTitle('Random IIslands Against Jwiggs Combo')
   .setDescription(black.value)
   .addField(`Black Card Submitted By:`, bName, true)
-  .addField(`White Card${white.length == 1 ? '' : 's'} Submitted By:`, white.map(w => w.name).join(', '), true)
+  .addField(`White Card${white.length == 1 ? '' : 's'} Submitted By:`, white.map(w => w.name).filter((v,i,a) => a.indexOf(v) === i).join(', '), true)
   .setColor('RANDOM')
   message.channel.send(embed)
   }
