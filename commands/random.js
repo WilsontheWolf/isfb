@@ -16,10 +16,16 @@ exports.run = async (client, message, args, level) => {
   let white = []
   for(let i = 0; i < whites;i++){
     let w = client.cards.filter(c => c.type == 'white').random()
+    if(message.flags[i]) w = {
+      type: 'white',
+    owner: '409844605614424074',
+    value: '<@!312974985876471810>'
+    }
     w.name = `Unknown User (${w.owner})`
     if(client.users.has(w.owner)) w.name = client.users.get(w.owner).username
     white.push(w)
     black.value = black.value.replace(regex, w.value)
+    console.log(i)
     console.log(white)
   }
   if(!whites) {
