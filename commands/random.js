@@ -32,10 +32,12 @@ exports.run = async (client, message, args, level) => {
   let bName = `Unknown User (${black.owner})`
   if(client.users.has(black.owner)) bName = client.users.get(black.owner).username
   const embed = new Discord.RichEmbed()
+  .setTitle('Random IIslands Against Jwiggs Combo')
   .setDescription(black.value)
-  .addField(`Black Card Submitted By`, bName)
-  .addField(`White Card${white.length == 1 ? '' : 's'} Submitted By`, white.map(w => w.name).join(', '))
-  messgae
+  .addField(`Black Card Submitted By:`, bName, true)
+  .addField(`White Card${white.length == 1 ? '' : 's'} Submitted By:`, white.map(w => w.name).join(', '), true)
+  .setColor('RANDOM')
+  message.channel.send(embed)
   }
 
 exports.conf = {
