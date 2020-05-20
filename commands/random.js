@@ -18,8 +18,8 @@ exports.run = async (client, message, args, level) => {
     let w = client.cards.filter(c => c.type == 'white').random()
     if(message.flags[i]) w = {
       type: 'white',
-    owner: '409844605614424074',
-    value: '<@!312974985876471810>'
+    owner: message.author.id,
+    value: message.flags[i].replace(/_/g, ' ')
     }
     w.name = `Unknown User (${w.owner})`
     if(client.users.has(w.owner)) w.name = client.users.get(w.owner).username
