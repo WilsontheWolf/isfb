@@ -6,7 +6,7 @@ exports.run = async (client, message, args, level) => {
     silent = true;
   }
   if (message.flags.includes("d")) {
-    message.delete();
+    message.delete().catch(O_o =>{});
   }
   const code = args.join(" ");
   let msg
