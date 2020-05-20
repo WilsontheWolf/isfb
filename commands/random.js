@@ -1,3 +1,4 @@
+const Discord = require('discord.js')
 exports.run = async (client, message, args, level) => {
   const count = (str) => {
     const re =  /\({0,1}_+\){0,1}/g
@@ -30,9 +31,12 @@ exports.run = async (client, message, args, level) => {
   }
   let bName = `Unknown User (${black.owner})`
   if(client.users.has(black.owner)) bName = client.users.get(black.owner).username
-  message.channel.send(`${black.value}
-Black submitted by ${bName}. White submitted by ${white[0] ? white.map(w => w.name).join(', ') : 'noone'}`)  
-};
+  const embed = new Discord.RichEmbed()
+  .setDescription(black.value)
+  .addField(`Black Card Submitted By`, bName)
+  .addField(`White Card${white.length == 1 ? '' : 's'} Submitted By`, white.map(w => w.name).join(', '))
+  messgae
+  }
 
 exports.conf = {
   enabled: true,
