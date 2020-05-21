@@ -15,11 +15,11 @@ combos += count(c.value) || 1
   combos = combos * white.size
 const embed = new Discord.RichEmbed()
 .setTitle('Card Stats')
-.addField('Total Cards:', client.cards.count)
-.addField('Black Cards:', black.size)
-.addField('White Cards:', white.size)
-.addField('Unique Combos:', combos)
-.addField(`${user == message.author ? 'Your' : user.username + "'s"} Cards:`, client.cards.filter(c => c.owner == user.id).size)
+.addField('Total Cards:', client.cards.count - 1, true)
+.addField('Black Cards:', black.size, true)
+.addField('White Cards:', white.size, true)
+.addField('Unique Combos:', combos, true)
+.addField(`${user == message.author ? 'Your' : user.username + "'s"} Cards:`, client.cards.filter(c => c.owner == user.id).size, true)
 message.channel.send(embed)
 };
 
