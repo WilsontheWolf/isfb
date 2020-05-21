@@ -1,12 +1,24 @@
 const Discord = require('discord.js')
+const count = (str) => {
+  const re =  /\({0,1}_+\){0,1}/g
+  return ((str || '').match(re) || []).length
+}
 exports.run = async (client, message, args, level) => {
   let user = message.author
   if(args[0]) user = await client.fetchUser(args.join(' '), message)
+  let black = client.cards.filter(c => c.type == 'black')
+let white = client.cards.filter(c => c.type == 'white')
+let combos = 0
+black.forEach(c => {
+combos += count(c.value) || 1
+})
+  combos = combos * white.size
 const embed = new Discord.RichEmbed()
 .setTitle('Card Stats')
 .addField('Total Cards:', client.cards.count)
-.addField('Black Cards:', client.cards.filter(c => c.type == 'black').size)
-.addField('White Cards:', client.cards.filter(c => c.type == 'white').size)
+.addField('Black Cards:', black.size)
+.addField('White Cards:', white.size)
+.addField('Unique Combos:', combos)
 .addField(`${user == message.author ? 'Your' : user.username + "'s"} Cards:`, client.cards.filter(c => c.owner == user.id).size)
 message.channel.send(embed)
 };
