@@ -1,8 +1,9 @@
+/* global arguments */
 const funcs = {}
   
 exports.run = async (client, message, args, level) => {
   if(!args[0]) return message.reply('please provide a action.')
-  let action = funcs(args.shift())
+  let action = funcs[args.shift()]
   if(!action) return message.reply('invalid action.')
   action(...args)
   funcs.delete = (id) => {
@@ -13,21 +14,42 @@ exports.run = async (client, message, args, level) => {
     message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
   }
   funcs.edit = (id, type) => {
+    type = type.toLowerCase()
     arguments.splice(0, 2)
     let value = arguments
     if(id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if(!c) return message.reply('invalid id.')
-    if(!['value', 'owner', 'colour'].includes(type.toLowerCase())) return message.reply('invalid type.')
+    if(!['value', 'owner', 'colour'].includes(type)) return message.reply('invalid type.')
+    if(type == 'value') editValue(id, c, value)
+    if(type == 'owner') editOwner(id, c, value)
+    if(type == 'colour') editColour(id, c, value)
+  }
+  funcs.search = () => {
+    let q = arguments
+    if(id == 'count') return message.reply('invalid id.')
+    let c = client.cards.get(id)
+    if(!c) return message.reply('invalid id.')
+    client.cards.delete(id)
+    message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
   }
   const editValue = (id, o, n) => {
-    
+    o.value = n
+    client.cards.set(id, o)
+    message.reply('succsessfuly set the new value.')
   }
-  const editOwner = (id, o, n) => {
-    
+  const editOwner = async (id, o, n) => {
+    let user = await client.fetchUser(n, message)
+    if(!user) return message.reply('you must provide a valid user.')
+    o.owner = user.id
+    client.cards.set(id, o)
+    message.reply('succsessfuly set the new value.')
   }
   const editColour = (id, o, n) => {
-    
+    if(!['black', 'white'].includes(n.toLowerCase())) return message.reply('Please choose a valid colour.')
+    o.value = n
+    client.cards.set(id, o)
+    message.reply('succsessfuly set the new value.')
   }
 };
 
