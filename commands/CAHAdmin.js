@@ -1,6 +1,20 @@
+const funcs = {}
+  
 exports.run = async (client, message, args, level) => {
-  if(!args[0]) return message.channel.send('please provide a action.')
-  let action = args[0]
+  if(!args[0]) return message.reply('please provide a action.')
+  let action = funcs(args.shift())
+  if(!action) return message.reply('invalid action.')
+  action(...args)
+  funcs.delete = (id) => {
+    if(id == 'count') return message.reply('invalid id.')
+    let c = client.cards.get(id)
+    if(!c)
+    client.cards.delete(id)
+    message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
+  }
+  funcs.edit = (id, type, value) => {
+    
+  }
 };
 
 exports.conf = {
