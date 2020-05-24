@@ -1,4 +1,3 @@
-/* global arguments */
 const funcs = {}
   const Discord = require('discord.js')
 exports.run = async (client, message, args, level) => {
@@ -11,8 +10,9 @@ exports.run = async (client, message, args, level) => {
   }
   funcs.edit = function edit(id, type) {
     type = type.toLowerCase()
-    arguments.splice(0, 2)
-    let value = arguments
+    let a = Object.values(arguments)
+    a.splice(0, 2)
+    let value = a.join(' ')
     if(id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if(!c) return message.reply('invalid id.')
@@ -25,10 +25,11 @@ exports.run = async (client, message, args, level) => {
     let q = Object.values(arguments)
     let cds = client.cards.filter(c => c.value && c.value.toLowerCase().includes(q.join(' ').toLowerCase()))
     if (!cds.size) return message.reply('no results found.')
-    let r = cds.map((c, i) => `${i} ${client.users.has(c.owner) ? client.users.get(c.owner).tag : "Unknown User (" + c.owner + ")"} ${c.type}: ${c.value}`).join('\n')``
+    let r = cds.map((c, i) => `${i} ${client.users.has(c.owner) ? client.users.get(c.owner).tag : "Unknown User (" + c.owner + ")"} ${c.type}: ${c.value}`).join('\n')
     const embed = new Discord.RichEmbed()
     .setTitle('Results')
-    .setDescription(`\`\`\`r.substr(0, 2041)}${r.length > 2041 ? '…' : ''}\`\`\``)
+    .setDescription(`\`\`\`${r.substr(0, 2041)}${r.length > 2041 ? '…' : ''}\`\`\``)
+    message.channel.send(embed)
     }
   const editValue = (id, o, n) => {
     o.value = n
@@ -44,7 +45,7 @@ exports.run = async (client, message, args, level) => {
   }
   const editColour = (id, o, n) => {
     if(!['black', 'white'].includes(n.toLowerCase())) return message.reply('Please choose a valid colour.')
-    o.value = n
+    o.type = n
     client.cards.set(id, o)
     message.reply('successfully set the new value.')
   }
