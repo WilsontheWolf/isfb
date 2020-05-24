@@ -74,7 +74,7 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['cah'],
-  permLevel: "Bot Admin",
+  permLevel: "Moderator",
   hidden: true
 };
 
@@ -82,5 +82,9 @@ exports.help = {
   name: "iaj",
   category: "Islands Against Jwiggs",
   description: "Admin commands for the Islands Agains Jwiggs Game.",
-  usage: ""
+  usage: `iaj [search/info/edit/delete]
+search:: iaj search [query]
+info:: iaj info [id]
+edit:: iaj edit [id] [value/owner/colour] [new value]
+delete:: iaj delete [id]`
 };
