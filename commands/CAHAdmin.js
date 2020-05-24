@@ -2,18 +2,14 @@
 const funcs = {}
   const Discord = require('discord.js')
 exports.run = async (client, message, args, level) => {
-  if(!args[0]) return message.reply('please provide a action.')
-  let action = funcs[args.shift()]
-  if(!action) return message.reply('invalid action.')
-  action(...args)
-  funcs.delete = (id) => {
+  funcs.delete = function deleteis(id){
     if(id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if(!c) return message.reply('invalid id.')
     client.cards.delete(id)
     message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
   }
-  funcs.edit = (id, type) => {
+  funcs.edit = function edit(id, type) {
     type = type.toLowerCase()
     arguments.splice(0, 2)
     let value = arguments
@@ -25,15 +21,15 @@ exports.run = async (client, message, args, level) => {
     if(type == 'owner') editOwner(id, c, value)
     if(type == 'colour') editColour(id, c, value)
   }
-  funcs.search = () => {
-    let q = arguments
-    let cds = client.cards.filter(c => c.value && c.value.toLowerCase().includes(arguments.join(' ').toLowerCase()))
+  funcs.search = function search(){
+    let q = Object.values(arguments)
+    let cds = client.cards.filter(c => c.value && c.value.toLowerCase().includes(q.join(' ').toLowerCase()))
     if (!cds.size) return message.reply('no results found.')
     let r = cds.map((c, i) => `${i} ${client.users.has(c.owner) ? client.users.get(c.owner).tag : "Unknown User (" + c.owner + ")"} ${c.type}: ${c.value}`).join('\n')``
     const embed = new Discord.RichEmbed()
     .setTitle('Results')
     .setDescription(`\`\`\`r.substr(0, 2041)}${r.length > 2041 ? '…' : ''}\`\`\``)
-  }
+    }
   const editValue = (id, o, n) => {
     o.value = n
     client.cards.set(id, o)
@@ -52,6 +48,12 @@ exports.run = async (client, message, args, level) => {
     client.cards.set(id, o)
     message.reply('successfully set the new value.')
   }
+  
+  if(!args[0]) return message.reply('please provide a action.')
+  let action = funcs[args.shift()]
+  if(!action) return message.reply('invalid action.')
+  action(...args)
+  
 };
 
 exports.conf = {
