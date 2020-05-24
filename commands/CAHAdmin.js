@@ -1,6 +1,6 @@
 /* global arguments */
 const funcs = {}
-  
+  const Discord = require('discord.js')
 exports.run = async (client, message, args, level) => {
   if(!args[0]) return message.reply('please provide a action.')
   let action = funcs[args.shift()]
@@ -27,29 +27,30 @@ exports.run = async (client, message, args, level) => {
   }
   funcs.search = () => {
     let q = arguments
-    if(id == 'count') return message.reply('invalid id.')
-    let c = client.cards.get(id)
-    if(!c) return message.reply('invalid id.')
-    client.cards.delete(id)
-    message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
+    let cds = client.cards.filter(c => c.value && c.value.toLowerCase().includes(arguments.join(' ').toLowerCase()))
+    if (!cds.size) return message.reply('no results found.')
+    let r = cds.map((c, i) => `${i} ${client.users.has(c.owner) ? client.users.get(c.owner).tag : "Unknown User (" + c.owner + ")"} ${c.type}: ${c.value}`).join('\n')``
+    const embed = new Discord.RichEmbed()
+    .setTitle('Results')
+    .setDescription(`\`\`\`r.substr(0, 2041)}${r.length > 2041 ? '…' : ''}\`\`\``)
   }
   const editValue = (id, o, n) => {
     o.value = n
     client.cards.set(id, o)
-    message.reply('succsessfuly set the new value.')
+    message.reply('successfully set the new value.')
   }
   const editOwner = async (id, o, n) => {
     let user = await client.fetchUser(n, message)
     if(!user) return message.reply('you must provide a valid user.')
     o.owner = user.id
     client.cards.set(id, o)
-    message.reply('succsessfuly set the new value.')
+    message.reply('successfully set the new value.')
   }
   const editColour = (id, o, n) => {
     if(!['black', 'white'].includes(n.toLowerCase())) return message.reply('Please choose a valid colour.')
     o.value = n
     client.cards.set(id, o)
-    message.reply('succsessfuly set the new value.')
+    message.reply('successfully set the new value.')
   }
 };
 
