@@ -31,12 +31,13 @@ exports.run = async (client, message, args, level) => {
     .setDescription(`\`\`\`${r.substr(0, 2041)}${r.length > 2041 ? '…' : ''}\`\`\``)
     message.channel.send(embed)
     }
-  funcs.info = function search(id){
+  funcs.info = function info(id){
     if(id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if (!c) return message.reply('no such card.')
     const embed = new Discord.RichEmbed()
-    .setTitle(`Card ${id}`)
+    .setAuthor(`Info for card ${id}`)
+    .setTitle('Content:')
     .setDescription(c.value)
     .addField('Owner:', client.users.has(c.owner) ? client.users.get(c.owner).tag : "Unknown User (" + c.owner + ")", true)
     .addField('Type:', c.type, true)
