@@ -22,7 +22,7 @@ exports.run = async (client, message, args, level) => {
     }
   } catch (err) {
     if (typeof err !== "string") {
-      err = require("util").inspect(err);
+      err = err.toString()
     }
     var length = `\`\`\`${err}\`\`\``.length;
     var embedErr = new Discord.RichEmbed()
