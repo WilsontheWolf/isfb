@@ -51,7 +51,7 @@ exports.run = async (client, message, args, level) => {
 
     message.channel.send(embed)
   }
-  func.start = () => {
+  func.start = function start() {
     let white = cards.filter(c => c.type == 'white')
     let black = cards(c => c.type == 'black' && count(c.value) < 3)
     games.set(1, {
