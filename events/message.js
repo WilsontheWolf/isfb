@@ -4,7 +4,7 @@ const tech = [/*"tech", "forge"*/];
 const test = [/*"test update", "beta version", "tester", "test version"*/];
 const endless = [/*"endless", "end less"*/];
 const sandbox = [/*"sandbox", "sand box", "creative"*/]
-const responce = async (msg, id, client) => {
+const responce = async (msg, message, client) => {
   if(!message.guild) return client.emit('cah', msg)
   if (msg.author.id == id) return;
   if (msg.channel.id == "674937391529590784" || msg.channel.id == '516624854066135050') return;

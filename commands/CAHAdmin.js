@@ -1,10 +1,13 @@
 const funcs = {}
 const Discord = require('discord.js')
-let games = client.game
-let cards = client.cards.filter(c => c.type)
-let black = cards.filter(c => c.type == 'black')
-let white = cards.filter(c => c.type == 'white')
 exports.run = async (client, message, args, level) => {
+  let games = client.game
+  let cards = client.cards.filter(c => c.value)
+  const count = (str) => {
+    const re =  /\({0,1}_+\){0,1}/g
+    return ((str || '').match(re) || []).length
+  }
+  
   funcs.delete = function deleteis(id) {
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
@@ -49,7 +52,8 @@ exports.run = async (client, message, args, level) => {
     message.channel.send(embed)
   }
   func.start = () => {
-    
+    let white = cards.filter(c => c.type == 'white')
+    let black = cards(c => c.type == 'black' && count(c.value) < 3)
     games.set(1, {
       white: white,
       black: black,
