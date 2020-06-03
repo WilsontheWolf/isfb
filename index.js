@@ -30,7 +30,7 @@ client.saves = new Enmap({ name: "saves" });
 client.cooldowns = new Enmap({ name: "cooldowns"});
 client.reminders = new Enmap({ name: "reminders" });
 client.cards = new Enmap({name: 'cards'});
-client.deck = new Enmap({name: 'deck'});
+client.game = new Enmap({name: 'deck'});
 
 
 const init = async () => {
