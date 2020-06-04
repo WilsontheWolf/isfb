@@ -15,7 +15,7 @@ exports.run = async (client, message, args, level) => {
       for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
       }
-      if(!games.has(result)) valid = true
+      if (!games.has(result)) valid = true
     }
     return result
   }
@@ -68,7 +68,7 @@ exports.run = async (client, message, args, level) => {
   funcs.start = function start() {
     if (level < 9) return message.reply("you don't have the perms to use this subcommand.")
     let size = games.count
-    if(size >= 1) return message.reply('Sorry the maximum amount of games hase been reached!')
+    if (size >= 1) return message.reply('Sorry the maximum amount of games hase been reached!')
     let white = cards.filterArray(c => c.type == 'white')
     let black = cards.filterArray(c => c.type == 'black' && count(c.value) < 3)
     let id = genCode()
@@ -80,6 +80,17 @@ exports.run = async (client, message, args, level) => {
       czar: null,
       round: 0,
       state: 'waiting'
+    })
+    message.reply(`I've created your game. The code is \`${id}\`. To join type \`-iaj join ${id}\`.`)
+  }
+  funcs.start = function start(id) {
+    let game = games.get(id)
+    if (!game) return message.reply('No such game!')
+    if (game.users[message.author.id]) return message.reply(`Your already in this game! To leave type \`-iaj leave ${id}\`.`)
+    games.set(id, {
+      id: message.author.id,
+      points: 0,
+      cards: {}
     })
     message.reply(`I've created your game. The code is \`${id}\`. To join type \`-iaj join ${id}\`.`)
   }
