@@ -9,21 +9,21 @@ exports.run = async (client, message, args, level) => {
   }
   
   funcs.delete = function deleteis(id) {
-    if(level < 5) return message.reply("you don't have the perms to use this subcommand.")
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if (!c) return message.reply('invalid id.')
+    if(level < 5 && message.author.id != c.owner) return message.reply("you don't have the perms to use this subcommand.")
     client.cards.delete(id)
     message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
   }
   funcs.edit = function edit(id, type) {
+    if(level < 5 ) return message.reply("you don't have the perms to use this subcommand.")
     type = type.toLowerCase()
     let a = Object.values(arguments)
     a.splice(0, 2)
     let value = a.join(' ')
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
-    if(level < 5 && message.author.id != ) return message.reply("you don't have the perms to use this subcommand.")
     if (!c) return message.reply('invalid id.')
     if (!['value', 'owner', 'colour'].includes(type)) return message.reply('invalid type.')
     if (type == 'value') editValue(id, c, value)
@@ -53,7 +53,7 @@ exports.run = async (client, message, args, level) => {
 
     message.channel.send(embed)
   }
-  func.start = function start() {
+  funcs.start = function start() {
     if(level < 9) return message.reply("you don't have the perms to use this subcommand.")
     let white = cards.filter(c => c.type == 'white')
     let black = cards(c => c.type == 'black' && count(c.value) < 3)
@@ -96,7 +96,7 @@ exports.conf = {
   enabled: true,
   guildOnly: false,
   aliases: ['cah'],
-  permLevel: "Moderator",
+  permLevel: "User",
   hidden: true
 };
 
