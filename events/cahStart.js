@@ -11,7 +11,7 @@ module.exports = async (client, id) => {
   let game = games.get(id)
   if (!game) return console.warn(`Something tried starting game ${id} but it doesn't exist.`)
   if (game.state != 'waiting') return console.warn(`Something tried starting game ${id} but it isn't waiting.`)
-  game.players.forEach(p => {
+  Object.keys(game.players).forEach(p => {
     /*{
       id,
       points: 0,

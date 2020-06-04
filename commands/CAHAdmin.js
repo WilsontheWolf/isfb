@@ -88,8 +88,19 @@ exports.run = async (client, message, args, level) => {
     let game = games.get(id)
     if (!game) return message.reply('No such game!')
     if (level < 9 && game.owner != message.author.id) return message.reply(`You don't have the permissions to start this game.`)
-    if(Object.keys(game.players).size < 3) return message.reply("You don't have enough players to continue.")
-    client.emit('cahStart')
+    if (Object.keys(game.players).size < 3) return message.reply("You don't have enough players to continue.")
+    client.emit('cahStart', id)
+    message.reply(`I've started your game.`)
+  }
+  funcs.join = function join(id) {
+    let game = games.get(id)
+    if (!game) return message.reply('No such game!')
+    if (game.players[message.author.id]) return message.reply("You're already in this game.")
+    games.set(message.author.id, {
+      id: message.author.id,
+      points: 0,
+      cards: [],
+    }, `players.${message.author.id}`)
     message.reply(`I've started your game.`)
   }
   const editValue = (id, o, n) => {
