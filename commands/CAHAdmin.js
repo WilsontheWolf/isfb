@@ -89,6 +89,7 @@ exports.run = async (client, message, args, level) => {
     if (!game) return message.reply('No such game!')
     if (level < 9 && game.owner != message.author.id) return message.reply(`You don't have the permissions to start this game.`)
     if(Object.keys(game.players).size < 3) return message.reply("You don't have enough players to continue.")
+    client.emit('cahStart')
     message.reply(`I've started your game.`)
   }
   const editValue = (id, o, n) => {
