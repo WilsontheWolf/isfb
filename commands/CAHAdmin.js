@@ -9,6 +9,7 @@ exports.run = async (client, message, args, level) => {
   }
   
   funcs.delete = function deleteis(id) {
+    if(level < 5) return message.reply("you don't have the perms to use this subcommand.")
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if (!c) return message.reply('invalid id.')
@@ -22,6 +23,7 @@ exports.run = async (client, message, args, level) => {
     let value = a.join(' ')
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
+    if(level < 5 && message.author.id != ) return message.reply("you don't have the perms to use this subcommand.")
     if (!c) return message.reply('invalid id.')
     if (!['value', 'owner', 'colour'].includes(type)) return message.reply('invalid type.')
     if (type == 'value') editValue(id, c, value)
@@ -52,6 +54,7 @@ exports.run = async (client, message, args, level) => {
     message.channel.send(embed)
   }
   func.start = function start() {
+    if(level < 9) return message.reply("you don't have the perms to use this subcommand.")
     let white = cards.filter(c => c.type == 'white')
     let black = cards(c => c.type == 'black' && count(c.value) < 3)
     games.set(1, {
