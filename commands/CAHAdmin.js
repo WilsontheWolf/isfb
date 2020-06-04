@@ -4,20 +4,27 @@ exports.run = async (client, message, args, level) => {
   let games = client.game
   let cards = client.cards.filter(c => c.value)
   const count = (str) => {
-    const re =  /\({0,1}_+\){0,1}/g
+    const re = /\({0,1}_+\){0,1}/g
     return ((str || '').match(re) || []).length
   }
-  
+  const code = (length = 5) {
+    let characters = 'abcdefghijklmnopqrstuvwxyz';
+    let result = ''
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+  }
+
   funcs.delete = function deleteis(id) {
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if (!c) return message.reply('invalid id.')
-    if(level < 5 && message.author.id != c.owner) return message.reply("you don't have the perms to use this subcommand.")
+    if (level < 5 && message.author.id != c.owner) return message.reply("you don't have the perms to use this subcommand.")
     client.cards.delete(id)
     message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
   }
   funcs.edit = function edit(id, type) {
-    if(level < 5 ) return message.reply("you don't have the perms to use this subcommand.")
+    if (level < 5) return message.reply("you don't have the perms to use this subcommand.")
     type = type.toLowerCase()
     let a = Object.values(arguments)
     a.splice(0, 2)
@@ -54,7 +61,7 @@ exports.run = async (client, message, args, level) => {
     message.channel.send(embed)
   }
   funcs.start = function start() {
-    if(level < 9) return message.reply("you don't have the perms to use this subcommand.")
+    if (level < 9) return message.reply("you don't have the perms to use this subcommand.")
     let white = cards.filter(c => c.type == 'white')
     let black = cards(c => c.type == 'black' && count(c.value) < 3)
     games.set(1, {
