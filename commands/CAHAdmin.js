@@ -65,7 +65,7 @@ exports.run = async (client, message, args, level) => {
 
     message.channel.send(embed)
   }
-  funcs.start = function start() {
+  funcs.create = function create() {
     if (level < 9) return message.reply("you don't have the perms to use this subcommand.")
     let size = games.count
     if (size >= 1) return message.reply('Sorry the maximum amount of games hase been reached!')
@@ -74,6 +74,7 @@ exports.run = async (client, message, args, level) => {
     let id = genCode()
     games.set(id, {
       id,
+      owner: message.author.id,
       white,
       black,
       players: {},
@@ -86,13 +87,9 @@ exports.run = async (client, message, args, level) => {
   funcs.start = function start(id) {
     let game = games.get(id)
     if (!game) return message.reply('No such game!')
-    if (game.users[message.author.id]) return message.reply(`Your already in this game! To leave type \`-iaj leave ${id}\`.`)
-    games.set(id, {
-      id: message.author.id,
-      points: 0,
-      cards: {}
-    })
-    message.reply(`I've created your game. The code is \`${id}\`. To join type \`-iaj join ${id}\`.`)
+    if (level < 9 && game.owner != message.author.id) return message.reply(`You don't have the permissions to start this game.`)
+    if(Object.keys(game.players).size < 3) return message.reply("You don't have enough players to continue.")
+    message.reply(`I've started your game.`)
   }
   const editValue = (id, o, n) => {
     o.value = n
