@@ -96,7 +96,7 @@ exports.run = async (client, message, args, level) => {
     let game = games.get(id)
     if (!game) return message.reply('No such game!')
     if (game.players[message.author.id]) return message.reply("You're already in this game.")
-    games.set(message.author.id, {
+    games.set(id, {
       id: message.author.id,
       points: 0,
       cards: [],

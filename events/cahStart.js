@@ -1,4 +1,22 @@
-function getCard(id) {
+module.exports = async (client, id) => {
+  let games = client.game
+  let game = games.get(id)
+  if (!game) return console.warn(`Something tried starting game ${id} but it doesn't exist.`)
+  if (game.state != 'waiting') return console.warn(`Something tried starting game ${id} but it isn't waiting.`)
+  Object.keys(game.players).forEach(pid => {
+    /*{
+      id,
+      points: 0,
+      cards: [],
+    }*/
+    for (let i = 0; i < 8; i++)
+      game.players[pid].cards.push(getCard(id, client))
+  })
+  games.set(id, game.players, 'players')
+  games.set(id, 'starting', 'state')
+
+};
+function getCard(id,client) {
   let cards = client.game.get(id, 'white')
   if (!cards) return;
   let value = client.Rnd(0, cards.length)
@@ -6,21 +24,3 @@ function getCard(id) {
   client.game.set(id, cards.filter((c, i) => i != value), 'white')
   return card
 }
-module.exports = async (client, id) => {
-  let games = client.game
-  let game = games.get(id)
-  if (!game) return console.warn(`Something tried starting game ${id} but it doesn't exist.`)
-  if (game.state != 'waiting') return console.warn(`Something tried starting game ${id} but it isn't waiting.`)
-  Object.keys(game.players).forEach(p => {
-    /*{
-      id,
-      points: 0,
-      cards: [],
-    }*/
-    for (let i = 0; i < 8; i++)
-      p.cards.push(getCard())
-  })
-  games.set(id, game.players, 'players')
-  games.set(id, 'starting', 'state')
-
-};
