@@ -7,12 +7,17 @@ exports.run = async (client, message, args, level) => {
     const re = /\({0,1}_+\){0,1}/g
     return ((str || '').match(re) || []).length
   }
-  const code = (length = 5) {
+  const genCode = (length = 5) => {
+    let valid = false
     let characters = 'abcdefghijklmnopqrstuvwxyz';
     let result = ''
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    while (!valid) {
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      if(!games.has(result)) valid = true
     }
+    return result
   }
 
   funcs.delete = function deleteis(id) {
@@ -62,16 +67,22 @@ exports.run = async (client, message, args, level) => {
   }
   funcs.start = function start() {
     if (level < 9) return message.reply("you don't have the perms to use this subcommand.")
+    let size = games.count
+    if(size >= 1) return message.reply('Sorry the maximum amount of games hase been reached!')
     let white = cards.filter(c => c.type == 'white')
-    let black = cards(c => c.type == 'black' && count(c.value) < 3)
-    games.set(1, {
-      white: white,
-      black: black,
+    let black = cards.filter(c => c.type == 'black' && count(c.value) < 3)
+    let id = genCode()
+    debugger
+    games.set(id, {
+      id,
+      white,
+      black,
       players: {},
       czar: null,
       round: 0,
       state: 'waiting'
     })
+    message.reply(`I've created your game. The code is \`${id}\`. To join type \`-iaj join ${id}\`.`)
   }
   const editValue = (id, o, n) => {
     o.value = n
