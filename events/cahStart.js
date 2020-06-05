@@ -13,7 +13,7 @@ module.exports = async (client, id) => {
       game.players[pid].cards.push(getCard(id, client))
   })
   games.set(id, game.players, 'players')
-  games.set(id, 'starting', 'state')
+  games.set(id, 'picking', 'state')
 
 };
 function getCard(id,client) {
