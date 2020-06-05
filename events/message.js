@@ -83,7 +83,7 @@ The endless mode will __probably__ come after that, in 2020.`
   }
 };
 module.exports = async (client, message) => {
-  if (message.author.bot && message.guild.id != "519997113648676879") return;
+  if (message.author.bot && message.guild && message.guild.id != "519997113648676879") return;
   if (message.guild)
     if (message.guild.id == "501043184361537547" && disallowedChannels.includes(message.channel.id))
       return responce(message, client.user.id, client);
