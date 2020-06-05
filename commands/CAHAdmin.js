@@ -77,6 +77,7 @@ exports.run = async (client, message, args, level) => {
       owner: message.author.id,
       white,
       black,
+      curBlack: null,
       players: {},
       czar: null,
       round: 0,

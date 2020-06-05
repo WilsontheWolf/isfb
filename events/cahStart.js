@@ -10,17 +10,17 @@ module.exports = async (client, id) => {
       cards: [],
     }*/
     for (let i = 0; i < 8; i++)
-      game.players[pid].cards.push(getCard(id, client))
+      game.players[pid].cards.push(getCard(id, client, 'white'))
   })
   games.set(id, game.players, 'players')
   games.set(id, 'picking', 'state')
-
+  let black = getCard(id, client, 'black')
 };
-function getCard(id,client) {
-  let cards = client.game.get(id, 'white')
+function getCard(id,client, type = 'white') {
+  let cards = client.game.get(id, type)
   if (!cards) return;
   let value = client.Rnd(0, cards.length)
   let card = cards[value]
-  client.game.set(id, cards.filter((c, i) => i != value), 'white')
+  client.game.set(id, cards.filter((c, i) => i != value), type)
   return card
 }
