@@ -1,8 +1,9 @@
+const Discord = require('discord.js')
 module.exports = async (client, id) => {
   let games = client.game
   let game = games.get(id)
   if (!game) return console.warn(`Something tried starting a new round in game ${id} but it doesn't exist.`)
-  games.inc(id, round)
+  games.inc(id, 'round')
   game.round ++
   let black = getCard(id, client, 'black')
   games.set(id, black, 'curBlack')
@@ -14,7 +15,10 @@ module.exports = async (client, id) => {
     user.send(new Discord.RichEmbed()
     .setAuthor(`IIslands Against Jwiggs`)
     .setTitle(`Round: ${game.round}`)
-    .setDescription(`**Black Card**: ${black.value.replace(regex, '_')}`)
+    .setDescription(`**Black Card**:
+    ${black.value.replace(regex, '`_`')}
+    **Your Cards**:
+    ${player.cards.map((c,i) => `[${i+1}] ${c.value}`).join('\n')}`)
     )
   })
 };

@@ -69,7 +69,7 @@ exports.run = async (client, message, args, level) => {
     if (level < 9) return message.reply("you don't have the perms to use this subcommand.")
     let size = games.count
     if (size >= 1) return message.reply('Sorry the maximum amount of games hase been reached!')
-    let white = cards.filterArray(c => c.type == 'white')
+    let white = cards.filterArray(c => c.type == 'white' && !c.value.includes('http'))
     let black = cards.filterArray(c => c.type == 'black' && count(c.value) < 3)
     let id = genCode()
     games.set(id, {
