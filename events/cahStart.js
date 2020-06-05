@@ -14,8 +14,6 @@ module.exports = async (client, id) => {
   })
   games.set(id, game.players, 'players')
   games.set(id, 'picking', 'state')
-  let black = getCard(id, client, 'black')
-  games.set(id, black, 'curBlack')
   client.emit('cahNewRound', id)
 };
 function getCard(id,client, type = 'white') {
