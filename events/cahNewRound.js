@@ -11,7 +11,8 @@ module.exports = async (client, id) => {
   Object.keys(game.players).forEach(pid => {
     let user = client.users.get(pid)
     let player = game.players[pid]
-    if (!user) return console.error(`Error Finding User ${pid} in game ${id}!!!`)
+    if (!user) return console.error(`Error Finding User ${pid} in game ${id}!!!
+    This shouldn't happen!`)
     user.send(new Discord.RichEmbed()
     .setAuthor(`IIslands Against Jwiggs`)
     .setTitle(`Round: ${game.round}`)

@@ -100,6 +100,7 @@ exports.run = async (client, message, args, level) => {
     games.set(id, {
       id: message.author.id,
       points: 0,
+      selected: null,
       cards: [],
     }, `players.${message.author.id}`)
     message.reply(`I've started your game.`)
