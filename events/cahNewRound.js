@@ -8,11 +8,13 @@ module.exports = async (client, id) => {
   let black = getCard(id, client, 'black')
   games.set(id, black, 'curBlack')
   let regex = /\({0,1}_+\){0,1}/g
+  games.set(id, 'picking', 'state')
   Object.keys(game.players).forEach(pid => {
     let user = client.users.get(pid)
     let player = game.players[pid]
     if (!user) return console.error(`Error Finding User ${pid} in game ${id}!!!
     This shouldn't happen!`)
+    games.set(id, null, `players.${pid}.selected`)
     user.send(new Discord.RichEmbed()
     .setAuthor(`IIslands Against Jwiggs`)
     .setTitle(`Round: ${game.round}`)
