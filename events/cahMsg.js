@@ -3,5 +3,5 @@ module.exports = async (client, msg) => {
   let game = client.game.find(g => g.players[msg.author.id])
   console.log(game)
   if (!game) return
-  if(game.state == 'picking')
+  //if(game.state == 'picking')
 };
