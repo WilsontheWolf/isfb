@@ -395,4 +395,7 @@ ${question}`
     client.logger.error(`Unhandled rejection: ${err}`);
     console.error(err);
   });
+  client.getFaction = (user) => {
+    if
+  }
 };
