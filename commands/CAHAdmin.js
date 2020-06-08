@@ -24,12 +24,12 @@ exports.run = async (client, message, args, level) => {
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if (!c) return message.reply('invalid id.')
-    if (level < 5 && message.author.id != c.owner) return message.reply("you don't have the perms to use this subcommand.")
+    if (level < 5 && message.author.id != c.owner) return message.reply("you don't have the perms to use this sub-command.")
     client.cards.delete(id)
     message.reply(`Deleted card \`${id}\` with value \`${c.value}\``)
   }
   funcs.edit = function edit(id, type) {
-    if (level < 5) return message.reply("you don't have the perms to use this subcommand.")
+    if (level < 5) return message.reply("you don't have the perms to use this sub-command.")
     type = type.toLowerCase()
     let a = Object.values(arguments)
     a.splice(0, 2)
@@ -66,9 +66,9 @@ exports.run = async (client, message, args, level) => {
     message.channel.send(embed)
   }
   funcs.create = function create() {
-    if (level < 9) return message.reply("you don't have the perms to use this subcommand.")
+    if (level < 9) return message.reply("you don't have the perms to use this sub-command.")
     let size = games.count
-    if (size >= 1) return message.reply('Sorry the maximum amount of games hase been reached!')
+    if (size >= 1) return message.reply('Sorry the maximum amount of games has been reached!')
     let white = cards.filterArray(c => c.type == 'white' && !c.value.includes('http'))
     let black = cards.filterArray(c => c.type == 'black' && count(c.value) < 3)
     let id = genCode()
@@ -107,7 +107,7 @@ exports.run = async (client, message, args, level) => {
       cards: [],
       faction
     }, `players.${message.author.id}`)
-    message.reply(`I've started your game.`)
+    message.reply(`suc your game.`)
   }
   const editValue = (id, o, n) => {
     o.value = n
