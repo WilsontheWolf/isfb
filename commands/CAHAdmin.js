@@ -98,12 +98,14 @@ exports.run = async (client, message, args, level) => {
     let game = games.get(id)
     if (!game) return message.reply('No such game!')
     if (game.players[message.author.id]) return message.reply("You're already in this game.")
+    let faction = client.getFaction(message.member || message.author)
     if(!client.getFaction(message.member || message.author)) return message.reply("You must be in a faction to join.")
     games.set(id, {
       id: message.author.id,
       points: 0,
       selected: null,
       cards: [],
+      faction
     }, `players.${message.author.id}`)
     message.reply(`I've started your game.`)
   }
