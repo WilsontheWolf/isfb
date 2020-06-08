@@ -94,6 +94,7 @@ exports.run = async (client, message, args, level) => {
     message.reply(`I've started your game.`)
   }
   funcs.join = function join(id) {
+    if (games.find(g => g.players[msg.author.id])) return message.reply('You are already in a game.')
     let game = games.get(id)
     if (!game) return message.reply('No such game!')
     if (game.players[message.author.id]) return message.reply("You're already in this game.")
