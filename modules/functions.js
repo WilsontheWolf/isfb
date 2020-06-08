@@ -398,9 +398,9 @@ ${question}`
   client.getFaction = (u) => {
     let m
     if (u.guild && u.guild.id == '501043184361537547') m = u
-    else m = client.guilds.get('501043184361537547').fetchMember(u.id)
+    else m = client.guilds.get('501043184361537547').members.get(u.id)
     if(!m) return;
-    if(m.id) return 'Jwiggs'
+    if(m.id == '259066297109839872') return 'Jwiggs'
     if(m.roles.has('675944407744249885')) return 'Nova'
     if(m.roles.has('675944306917376000')) return 'Prime'
     if(m.roles.has('675944354547892264')) return 'Strike'
