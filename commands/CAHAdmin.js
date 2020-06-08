@@ -98,6 +98,7 @@ exports.run = async (client, message, args, level) => {
     let game = games.get(id)
     if (!game) return message.reply('No such game!')
     if (game.players[message.author.id]) return message.reply("You're already in this game.")
+    if(!client.getFaction(message.member || message.author))
     games.set(id, {
       id: message.author.id,
       points: 0,

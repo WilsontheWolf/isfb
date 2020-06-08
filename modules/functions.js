@@ -400,7 +400,11 @@ ${question}`
     if (u.guild && u.guild.id == '501043184361537547') m = u
     else m = client.guilds.get('501043184361537547').fetchMember(u.id)
     if(!m) return;
-    if(m.id) return 'jwiggs'
-    if(m.roles.has('675944407744249885')) return 'nova'
+    if(m.id) return 'Jwiggs'
+    if(m.roles.has('675944407744249885')) return 'Nova'
+    if(m.roles.has('675944306917376000')) return 'Prime'
+    if(m.roles.has('675944354547892264')) return 'Strike'
+    if(['406538226258411524', '405816250866860032'].includes(m.id)) return 'Alt'
+    return 
   }
 };
