@@ -3,5 +3,15 @@ module.exports = async (client, msg) => {
   let game = client.game.find(g => g.players[msg.author.id])
   console.log(game)
   if (!game) return
-  //if(game.state == 'picking')
+  player = game.players[msg.author.id]
+  if (game.state == 'picking' && game.czar != msg.author.id && !player.selected) {
+    // {
+    //   id: message.author.id,
+    //   points: 0,
+    //   selected: null,
+    //   cards: [],
+    //   faction
+    // }
+  };
+
 };
