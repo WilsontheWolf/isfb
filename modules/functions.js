@@ -320,7 +320,7 @@ ${question}`
     }
   };
   Object.defineProperty(String.prototype, "toProperCase", {
-    value: function() {
+    value: function () {
       return this.replace(
         /([^\W_]+[^\s-]*) */g,
         txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
@@ -379,7 +379,7 @@ ${question}`
     return false;
   };
   Object.defineProperty(Array.prototype, "random", {
-    value: function() {
+    value: function () {
       return this[Math.floor(Math.random() * this.length)];
     }
   });
@@ -395,7 +395,12 @@ ${question}`
     client.logger.error(`Unhandled rejection: ${err}`);
     console.error(err);
   });
-  client.getFaction = (user) => {
-    if
+  client.getFaction = (u) => {
+    let m
+    if (u.guild && u.guild.id == '501043184361537547') m = u
+    else m = client.guilds.get('501043184361537547').fetchMember(u.id)
+    if(!m) return;
+    if(m.id) return 'jwiggs'
+    if(m.roles.has('675944407744249885')) return 'nova'
   }
 };
