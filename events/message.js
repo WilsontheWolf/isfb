@@ -4,7 +4,7 @@ const tech = [/*"tech", "forge"*/];
 const test = [/*"test update", "beta version", "tester", "test version"*/];
 const endless = [/*"endless", "end less"*/];
 const sandbox = [/*"sandbox", "sand box", "creative"*/]
-const responce = async (msg, id, client) => {
+const response = async (msg, id, client) => {
   if(!msg.guild) return client.emit('cahMsg', msg)
   if (msg.author.id == id) return;
   if (msg.channel.id == "674937391529590784" || msg.channel.id == '516624854066135050') return;
@@ -75,7 +75,7 @@ The endless mode will __probably__ come after that, in 2020.`
     )
       return;
     message = await msg.channel.send(
-      `Right click while making a new game in order to create a sandboxed game. Glitched items are made available in sandbox mode, and are in the game as experiments or are going to be removed.`
+      `Right click while making a new game in order to create a sandbox game. Glitched items are made available in sandbox mode, and are in the game as experiments or are going to be removed.`
     );
     await message.react("💥");
     message.react("👍");
@@ -86,7 +86,7 @@ module.exports = async (client, message) => {
   if (message.author.bot && message.guild && message.guild.id != "519997113648676879") return;
   if (message.guild)
     if (message.guild.id == "501043184361537547" && disallowedChannels.includes(message.channel.id))
-      return responce(message, client.user.id, client);
+      return response(message, client.user.id, client);
   const settings = (message.settings =
     client.getSettings(message.guild) || client.settings.get("default"));
   const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
@@ -98,7 +98,7 @@ module.exports = async (client, message) => {
     return message.reply(`My prefix on this guild is \`${settings.prefix}\``);
   }
   if (message.content.indexOf(settings.prefix) !== 0)
-    return responce(message, client.user.id, client);
+    return response(message, client.user.id, client);
   client.saves.ensure(message.author.id, client.config.defaultUser);
   client.reminders.ensure(message.author.id, client.config.defaultReminder);
   const args = message.content
@@ -149,7 +149,6 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} (${
     cmd.run(client, message, args, level);
   } catch (error) {
     console.error(error);
-    var largs = args.join(" ");
     const embed = new Discord.RichEmbed()
       .addField(
         "<a:WeeWoo:525000522932027393>**__ERROR__**<a:WeeWoo:525000522932027393>",
@@ -165,7 +164,7 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} (${
       )
       .addField(
         "Step 3",
-        `Finally if that doesn\'t work send <@517371142508380170> a message for help. It also could be I have an issue with my code and hasen't been fixed it yet.`
+        `Finally if that doesn\'t work send <@517371142508380170> a message for help. It also could be I have an issue with my code and hasn't been fixed it yet.`
       )
       .addField("Error message:", `\`\`\` ${error}\`\`\``)
       .setColor("RED")

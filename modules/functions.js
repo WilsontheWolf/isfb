@@ -336,7 +336,7 @@ ${question}`
       .replace(/@/g, "@" + String.fromCharCode(8203))
       .replace(
         client.token,
-        "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0"
+        "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YG9PH--4U--tG0"
       );
     return text;
   };
@@ -364,7 +364,7 @@ ${question}`
       command = client.commands.get(client.aliases.get(commandName));
     }
     if (!command)
-      return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
+      return `The command \`${commandName}\` doesn't seem to exist, nor is it an alias. Try again!`;
     if (command.shutdown) {
       await command.shutdown(client);
     }

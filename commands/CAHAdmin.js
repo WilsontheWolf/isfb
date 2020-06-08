@@ -20,7 +20,7 @@ exports.run = async (client, message, args, level) => {
     return result
   }
 
-  funcs.delete = function deleteis(id) {
+  funcs.delete = function deletion(id) {
     if (id == 'count') return message.reply('invalid id.')
     let c = client.cards.get(id)
     if (!c) return message.reply('invalid id.')
@@ -146,7 +146,7 @@ exports.conf = {
 exports.help = {
   name: "iaj",
   category: "Islands Against Jwiggs",
-  description: "Admin commands for the Islands Agains Jwiggs Game.",
+  description: "Admin commands for the Islands Against Jwiggs Game.",
   usage: `iaj [search/info/edit/delete]
 search:: iaj search [query]
 info:: iaj info [id]
