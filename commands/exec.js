@@ -21,7 +21,7 @@ exports.run = async (client, message, args, level) => {
 					.setDescription(`\`\`\`${result.substr(0, 2042)}\`\`\``)
 				if (result.length >= 2049) {
 					console.log(`An exec command executed by ${message.author.username}'s response was too long \(${result.length}/2048\) the response was:
-				${evaled}`);
+				${result}`);
 					embed.addField(
 						"Note:",
 						`The response was too long with a length of \`${result.length}/2048\` characters. it was logged to the console`
