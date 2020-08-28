@@ -27,11 +27,11 @@ client.ids = new Enmap();
 
 client.settings = new Enmap({ name: "settings" });
 client.saves = new Enmap({ name: "saves" });
-client.cooldowns = new Enmap({ name: "cooldowns"});
+client.cooldowns = new Enmap({ name: "cooldowns" });
 client.reminders = new Enmap({ name: "reminders" });
-client.cards = new Enmap({name: 'cards'});
-client.game = new Enmap({name: 'deck'});
-client.crystals = new Enmap({name: 'crystals', autoEnsure: false});
+client.cards = new Enmap({ name: 'cards' });
+client.game = new Enmap({ name: 'deck' });
+client.crystals = new Enmap({ name: 'crystals' });
 
 const init = async () => {
   const cmdFiles = await readdir("./commands/");
@@ -60,7 +60,7 @@ const init = async () => {
     name.pop()
     client.ids.set(name.join('.'), require(`./ids/${f}`))
   });
-  
+
   client.levelCache = {};
   for (let i = 0; i < client.config.permLevels.length; i++) {
     const thisLevel = client.config.permLevels[i];
