@@ -11,7 +11,7 @@ exports.run = async (client, message, args, level) => {
 	embed = new Discord.RichEmbed()
 		.setFooter(`Eval command executed by ${message.author.username}`)
 		.setTimestamp()
-	const code = args.join(" ");
+	let code = args.join(" ");
 	let msg
 	let response
 	let e = false

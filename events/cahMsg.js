@@ -3,6 +3,15 @@ const count = (str) => {
 	return ((str || '').match(re) || []).length
 }
 
+function getCard(id,client, type = 'white') {
+	let cards = client.game.get(id, type)
+	if (!cards) return;
+	let value = client.Rnd(0, cards.length)
+	let card = cards[value]
+	client.game.set(id, cards.filter((c, i) => i != value), type)
+	return card
+  }
+
 module.exports = async (client, msg) => {
 	if (msg.content.startsWith('-')) return;
 	let game = client.game.find(g => g.players[msg.author.id])
@@ -19,7 +28,7 @@ If you want to rejoin the game run the command \`-iaj join ${game.id}\``)
 		const args = msg.content
 			.trim()
 			.split(/ +/g);
-		if (game.state == 'picking' && game.czar != msg.author.id && player.selected.size < c) {
+		if (game.state == 'picking' && game.czar != msg.author.id && player.selected[0]) {
 			let sub = []
 			for (let i = 0; i < c; i++) {
 				let num = parseInt(args[i])
@@ -28,11 +37,16 @@ If you want to rejoin the game run the command \`-iaj join ${game.id}\``)
 				else if(sub.includes(num)) i = c
 				else sub.push(num)
 			}
-			if(sub.length != count) return msg.reply(`Please choose ${c} valid choices.`)
+			if(sub.length != count) return msg.reply(`Please choose \`${c}\` valid choices.`)
+			sub.forEach(s => {
+				player.selected.push(player.cards[s])
+				player.cards.splice(s - 1, 1) 
+				player.cards.push(getCard(id, client, 'white'))
+			})
 			// {
 			//   id: message.author.id,
 			//   points: 0,
-			//   selected: null,
+			//   selected: [],
 			//   cards: [],
 			//   faction
 			// }

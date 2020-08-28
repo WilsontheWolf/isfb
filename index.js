@@ -31,7 +31,7 @@ client.cooldowns = new Enmap({ name: "cooldowns"});
 client.reminders = new Enmap({ name: "reminders" });
 client.cards = new Enmap({name: 'cards'});
 client.game = new Enmap({name: 'deck'});
-
+client.crystals = new Enmap({name: 'crystals', autoEnsure: false});
 
 const init = async () => {
   const cmdFiles = await readdir("./commands/");
