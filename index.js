@@ -43,7 +43,7 @@ client.cards = new Josh({
 })
 
 client.games = new Josh({
-  name: "game",
+  name: "games",
   provider
 })
 
