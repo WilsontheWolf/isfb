@@ -21,40 +21,15 @@ const config = {
       "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :D",
     welcomeEnabled: "false"
   },
-  defaultUser: {
-    userV: "1",
-    saves: {
-      "1": {},
-      "2": {},
-      "3": {},
-      "4": {},
-      "5": {}
-    }
-  },
-  defaultReminder: {
-    saveV: "1",
-    reminders: {}
-  },
-  defaultSave: {
-    save: `{{save}}`,
-    fileName: `{{name}}`,
-    image: `{{image}}`,
-    version: `{{version}}`
-  },
 
   permLevels: [
     { level: 0, name: "User", check: () => true },
-    { level: 0, 
-     name: "Recruit", 
-     check: message => {
-     
-    }},
     {
       level: 5,
       name: "Moderator",
       check: message => {
         try {
-          const modRole = message.guild.roles.find(
+          const modRole = message.guild.roles.cache.find(
             r => r.name.toLowerCase() === message.settings.modRole.toLowerCase()
           );
           if (modRole && message.member.roles.has(modRole.id)) return true;
@@ -69,7 +44,7 @@ const config = {
       name: "Administrator",
       check: message => {
         try {
-          const adminRole = message.guild.roles.find(
+          const adminRole = message.guild.roles.cache.find(
             r =>
               r.name.toLowerCase() === message.settings.adminRole.toLowerCase()
           );

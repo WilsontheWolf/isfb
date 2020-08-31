@@ -10,7 +10,7 @@ exports.run = async (client, message, args, level) => {
 	}
 	// if(url.toLowerCase().includes('ip')) return message.reply('There was an unexpected error viewing that page.')
 	let fullPage = !!message.flags.includes('f')
-	const browser = await puppeteer.launch({ executablePath: 'chromium-browser' });
+	const browser = await puppeteer.launch({ /*executablePath: 'chromium-browser'*/ });
 	try {
 		message.react('524998745725861904').catch(e => e)
 		const page = await browser.newPage();
@@ -23,7 +23,7 @@ exports.run = async (client, message, args, level) => {
 		if(html.includes('2604:3d09:2282:eb00') || html.replace(/\D/g, '').includes('246468')) throw 'Ip found'
 		let title = await page.title() || url
 		// if(title.toLowerCase().includes('ip')) throw 'Ip found'
-		await message.channel.send(title, new Discord.Attachment(await page.screenshot({ fullPage }), 'page.png'))
+		await message.channel.send(title, new Discord.MessageAttachment(await page.screenshot({ fullPage }), 'page.png'))
 
 	} catch (e) {
 		message.reply('There was an unexpected error viewing that page.')

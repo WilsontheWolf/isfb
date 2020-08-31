@@ -24,16 +24,16 @@ module.exports = client => {
     if (search.match(mention)) {
       user = search.match(mention)[0];
       user = user.slice(search.match(beg)[0].length, user.length - 1);
-      return await client.users.get(user);
+      return await client.users.cache.get(user);
     } else if (!msg.guild) {
       if (
-        client.users
+        client.users.cache
           .filter(user =>
             user.username.toLowerCase().startsWith(search.toLowerCase())
           )
           .first()
       ) {
-        let users = client.users
+        let users = client.users.cache
           .filter(user =>
             user.username.toLowerCase().startsWith(search.toLowerCase())
           )
@@ -55,13 +55,13 @@ ${question}`
         return users[parseInt(num) - 1];
       }
     } else if (
-      msg.guild.members
+      msg.guild.members.cache
         .filter(user =>
           user.displayName.toLowerCase().startsWith(search.toLowerCase())
         )
         .first()
     ) {
-      let users = msg.guild.members
+      let users = msg.guild.members.cache
         .filter(user =>
           user.displayName.toLowerCase().startsWith(search.toLowerCase())
         )
@@ -81,7 +81,7 @@ ${question}`
 ${question}`
       );
       return users[parseInt(num) - 1].user;
-    } else return client.users.get(search);
+    } else return client.users.cache.get(search);
   };
   client.Rnd = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
@@ -293,7 +293,7 @@ ${question}`
     const guildConf = client.settings.get(guild.id) || {};
     // This "..." thing is the "Spread Operator". It's awesome!
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-    return { ...client.config.defaultSettings, ...guildConf };
+    return { ...client.settings.get("default"), ...guildConf };
   };
   client.writeSettings = (id, newSettings) => {
     const defaults = client.settings.get("default");

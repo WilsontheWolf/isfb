@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
-  const embed = new Discord.RichEmbed()
+  const embed = new Discord.MessageEmbed()
     .setTitle("Credits")
     .setDescription("The wonderful people who made this happen.")
     .addField(

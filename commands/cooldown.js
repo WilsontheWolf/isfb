@@ -1,12 +1,12 @@
 exports.run = async (client, message, args, level) => {
-  let subbed = client.crystals.has(message.author.id)
+  let subbed = await client.crystals.has(message.author.id)
   if(subbed) {
-    client.crystals.delete(message.author.id)
+    await client.crystals.delete(message.author.id)
     message.reply("I've unsubscribed you from crystal cooldown notifications.")
   } else {
-    client.crystals.set(message.author.id, true)
+    await client.crystals.set(message.author.id, true)
     message.reply("I've subscribed you to crystal cooldown notifications.")
-  }
+  } 
 };
 
 exports.conf = {

@@ -2,7 +2,8 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 exports.run = async (client, message, args, level) => {
 	if (!args[0]) {
-		client.commands.forEach(c => client.unloadCommand(c.help.name))
+		let cmds = client.commands.map(c => c.help.name)
+		for(let i = 0; i < cmds.length;i++) await client.unloadCommand(cmds[i])
 		const cmdFiles = await readdir("./commands/");
 		client.logger.log(`Loading a total of ${cmdFiles.length} commands.`);
 		cmdFiles.forEach(f => {
@@ -12,20 +13,21 @@ exports.run = async (client, message, args, level) => {
 		});
 		message.reply(`Reloaded all commands.`);
 	} else {
-		let response = await client.unloadCommand(args[0]);
+		let cmd = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
+		let response = await client.unloadCommand(cmd.help.name);
 		if (response) return message.reply(`Error Unloading: ${response}`);
 
-		response = client.loadCommand(args[0]);
+		response = client.loadCommand(cmd.help.name);
 		if (response) return message.reply(`Error Loading: ${response}`);
 
-		message.reply(`The command \`${args[0]}\` has been reloaded`);
+		message.reply(`The command \`${cmd.help.name}\` has been reloaded`);
 	}
 };
 
 exports.conf = {
 	enabled: true,
 	guildOnly: false,
-	aliases: [],
+	aliases: ['refresh'],
 	permLevel: "Bot Admin",
 	hidden: true
 };

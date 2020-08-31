@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 exports.run = async (client, message, args, level) => {
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 	.setFooter(`exec command executed by ${message.author.username}`)
 	.setTimestamp()
 	let timeout = 5000

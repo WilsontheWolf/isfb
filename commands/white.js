@@ -1,30 +1,33 @@
-const submit = (sub, e, o) => {
+const submit = async (sub, msg) => {
+  let cards = msg.client.cards
+  let internal = msg.client.internal
   let dups = 0;
-  sub.forEach(s => {
-    if (!check(s, e)) return dups++
+  for(let i = 0;i < sub.length;i++) {
+    s = sub[i]
+    if (!(await check(s, cards))) return dups++
     if (!s) return
-    e.inc('count')
-    e.set(e.get('count') + 1, {
+    internal.inc('cardCount')
+    await cards.set(internal.get('cardCount').toString(), {
       type: "white",
-      owner: o,
+      owner: msg.author.id,
       value: s.replace(/_/g, "")
     });
-  });
+  };
   return dups
 };
-const check = (v, e) => {
+const check = async (v, e) => {
   let f = v.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "");
-  let exists = e.find(p => p.type == 'white' && p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
+  let exists = await e.find(p => p.type == 'white' && p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
   return !exists
 };
 
 exports.run = async (client, message, args, level) => {
   if (!args[0]) return message.reply("please put your submission.");
   let submissions = args.join(" ").split("\n");
-  let r = submit(submissions, client.cards, message.author.id);
+  let r = await submit(submissions, message);
   let m = `I've submitted your card${submissions.length == 1 ? '' : 's'}.`
-  if(r) m =`${submissions.length == r ? 'all ' : ''}${r} ${submissions.length == 1 ? 'submisson' : 'of your submissions'} was flagged as a duplicate${r.length == 1 ? '' : 's'} and not submitted!`
-  if(submissions.length - r && r) m +=` I've submitted the other ${submissions.length - r} submission${submissions.length - r == 1 ? '' : 's'}.`
+  if (r) m = `${submissions.length == r ? 'all ' : ''}${r} ${submissions.length == 1 ? 'submission' : 'of your submissions'} was flagged as a duplicate${r.length == 1 ? '' : 's'} and not submitted!`
+  if (submissions.length - r && r) m += ` I've submitted the other ${submissions.length - r} submission${submissions.length - r == 1 ? '' : 's'}.`
   message.reply(m)
 };
 
@@ -40,6 +43,6 @@ exports.help = {
   name: "white",
   category: "Islands Against Jwiggs",
   description:
-    "Submit a white card. Several can be submitted by seperating them with a new line.",
-  usage: "white [submissons]"
+    "Submit a white card. Several can be submitted by separating them with a new line (shift + enter).",
+  usage: "white [submissions]"
 };

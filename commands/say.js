@@ -1,12 +1,12 @@
 exports.run = async (client, message, args, level) => {
-  var botmessage = message.cleanContent
+  var botMessage = message.cleanContent
     .slice(message.settings.prefix)
     .trim()
     .split(" ");
-  botmessage.shift();
-  botmessage = botmessage.join(" ");
+  botMessage.shift();
+  botMessage = botMessage.join(" ");
   message.delete().catch(O_o => {});
-  message.channel.send(botmessage);
+  message.channel.send(botMessage);
 };
 
 exports.conf = {
