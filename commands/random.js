@@ -27,7 +27,7 @@ exports.run = async (client, message, args, level) => {
     black.value = black.value.replace(regex, '**' + w.value + '**')
   }
   if (!whites) {
-    let w = (await client.cards.filter(c => c.type == 'white')).random()
+    let w = (await client.cards.filter(c => c.type == 'white')).random()[1]
     w.name = `Unknown User (${w.owner})`
     if (client.users.cache.has(w.owner)) w.name = client.users.cache.get(w.owner).username
     white.push(w)
