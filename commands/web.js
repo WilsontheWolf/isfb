@@ -10,7 +10,7 @@ exports.run = async (client, message, args, level) => {
 	}
 	// if(url.toLowerCase().includes('ip')) return message.reply('There was an unexpected error viewing that page.')
 	let fullPage = !!message.flags.includes('f')
-	const browser = await puppeteer.launch({ /*executablePath: 'chromium-browser'*/ });
+	const browser = await puppeteer.launch({ executablePath: 'chromium-browser' });
 	try {
 		message.react('524998745725861904').catch(e => e)
 		const page = await browser.newPage();
