@@ -1,4 +1,12 @@
 const Discord = require('discord.js')
+const { Client, GuildMember } = require("discord.js");
+
+/**
+ * Member Update Event
+ * @param {Client} client
+ * @param {GuildMember} oldMember
+ * @param {GuildMember} newMember
+ */
 module.exports = async (client, oldMember, newMember) => {
 	if (!(await client.crystals.has(oldMember.id))) return
 	const cooldowns = {

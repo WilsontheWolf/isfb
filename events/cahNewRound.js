@@ -1,4 +1,10 @@
 const Discord = require('discord.js')
+const { Client } = require("discord.js");
+/**
+ * Cards against humanity new round handling Event
+ * @param {Client} client
+ * @param {string} id
+ */
 module.exports = async (client, id) => {
   let games = client.games
   let game = await games.get(id)

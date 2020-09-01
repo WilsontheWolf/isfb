@@ -1,7 +1,13 @@
 const Discord = require("discord.js");
+const { Client, Message } = require("discord.js");
+/**
+ * Message Event
+ * @param {Client} client
+ * @param {Message} message
+ */
 module.exports = async (client, message) => {
 	// Prevent botception 
-	if (message.author.bot) return;
+	if (message.author.bot) return; 
 	// Get settings
 	const settings = (message.settings = client.getSettings(message.guild) || client.settings.get("default"));
 	// Prefix mention 

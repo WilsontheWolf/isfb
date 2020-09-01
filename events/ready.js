@@ -1,4 +1,9 @@
 const express = require("express");
+const { Client } = require("discord.js");
+/**
+ * Ready Event
+ * @param {Client} client
+ */
 module.exports = async client => {
   client.settings.ensure("default", client.config.defaultSettings);
   client.user.setActivity(`Preparing...`, { type: "PLAYING" });

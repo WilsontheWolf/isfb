@@ -1,3 +1,11 @@
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, args, level) => {
   await message.reply("Bot is shutting down.");
   client.commands.forEach(async cmd => {

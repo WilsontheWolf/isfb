@@ -1,3 +1,11 @@
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, args, level) => {
 	// Check if the user specifies valid backups
 	let dbs = ["settings", "internal", "cards", "games", "crystals"]

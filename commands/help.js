@@ -1,3 +1,11 @@
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = (client, message, args, level) => {
   if (!args[0]) {
     const myCommands = message.guild

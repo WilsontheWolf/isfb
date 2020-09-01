@@ -1,5 +1,13 @@
 const Discord = require('discord.js')
 const puppeteer = require('puppeteer');
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, args, level) => {
 	if (!args[0]) return message.reply('Please include a site.')
 	let url = args.join(' ')

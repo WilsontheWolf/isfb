@@ -1,5 +1,12 @@
 const Discord = require("discord.js");
-const enmap = require("enmap");
+]const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, args, level) => {
 	let silent = false;
 	if (message.flags.includes("s")) {

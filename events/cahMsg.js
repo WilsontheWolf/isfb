@@ -11,7 +11,12 @@ async function getCard(id, client, type = 'white') {
 	await client.games.set(`${id}.${type}`, cards.filter((c, i) => i != value))
 	return card
 }
-
+const { Client, Message } = require("discord.js");
+/**
+ * Cards against humanity message handling Event
+ * @param {Client} client
+ * @param {Message} msg
+ */
 module.exports = async (client, msg) => {
 	if (msg.content.startsWith('-')) return;
 	let game = await client.games.find(g => g.players[msg.author.id])

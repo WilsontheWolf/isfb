@@ -1,5 +1,13 @@
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, args, level) => {
 	if (!args[0]) {
 		let cmds = client.commands.map(c => c.help.name)

@@ -1,4 +1,12 @@
 const Discord = require('discord.js')
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, args, level) => {
 	const embed = new Discord.MessageEmbed()
 	.setFooter(`exec command executed by ${message.author.username}`)

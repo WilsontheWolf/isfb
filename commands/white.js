@@ -1,3 +1,11 @@
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 const submit = async (sub, msg) => {
   let cards = msg.client.cards
   let internal = msg.client.internal

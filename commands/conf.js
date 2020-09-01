@@ -1,4 +1,12 @@
 const { inspect } = require("util");
+const { Client, Message } = require("discord.js");
+/**
+ * This is a command
+ * @param {Client} client
+ * @param {Message} message
+ * @param {String[]} args
+ * @param {number} level
+ */
 exports.run = async (client, message, [action, key, ...value], level) => {
   // eslint-disable-line no-unused-vars
   const defaults = client.settings.get("default");
