@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-]const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js");
 /**
  * This is a command
  * @param {Client} client
