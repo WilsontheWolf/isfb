@@ -10,10 +10,13 @@ const submit = async (sub, msg) => {
   let cards = msg.client.cards
   let internal = msg.client.internal
   let dups = 0;
-  for(let i = 0;i < sub.length;i++) {
+  for (let i = 0; i < sub.length; i++) {
     s = sub[i]
-    if (!(await check(s, cards))) return dups++
-    if (!s) return
+    if (!s) continue
+    if (!(await check(s, cards))) {
+      dups++
+      continue
+    }
     internal.inc('cardCount')
     await cards.set(internal.get('cardCount').toString(), {
       type: "white",
