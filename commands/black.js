@@ -6,7 +6,7 @@ const submit = async (sub, msg) => {
   for (let i = 0; i < sub.length; i++) {
     s = sub[i]
     if (!s) continue
-    if (!(await check(s, cards))) {
+    if ((await check(s, cards))) {
       dups++
       continue
     }

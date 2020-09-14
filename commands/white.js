@@ -13,7 +13,7 @@ const submit = async (sub, msg) => {
   for (let i = 0; i < sub.length; i++) {
     s = sub[i]
     if (!s) continue
-    if (!(await check(s, cards))) {
+    if ((await check(s, cards))) {
       dups++
       continue
     }
@@ -29,7 +29,7 @@ const submit = async (sub, msg) => {
 const check = async (v, e) => {
   let f = v.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "");
   let exists = await e.find(p => p.type == 'white' && p.value.toLowerCase().trim().replace(/_/g, "").replace(/\./g, "").replace(/\?/g, "").replace(/!/g, "") === f);
-  return !exists
+  return !!exists
 };
 
 exports.run = async (client, message, args, level) => {
