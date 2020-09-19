@@ -40,9 +40,8 @@ exports.run = async (client, message, args, level) => {
         let error = lint.find(e => e.fatal);
         if (error) {
             let line = code.split('\n')[error.line - 1];
-			let match = line.slice(error.column - 1).match(/\w+/i)
-			let length = 1
-			if(match) length = [0].length;
+			let match = line.slice(error.column - 1).match(/\w+/i);
+			let length = match ? match[0].length : 1;
             response = `${line}
 ${' '.repeat(error.column - 1)}${'^'.repeat(length)}
 [${error.line}:${error.column}] ${error.message} `;
