@@ -23,7 +23,7 @@ exports.run = async (client, message, args, level) => {
 		.exec(args.join(' '), {timeout},
 			(err, stdout, stderr) => {
 				let e = !!stderr
-				let result = stdout || stderr
+				let result = stdout && stderr ? `Stdout:\n${stdout}\nStderr:\n${stderr}`: stdout || stderr
 				embed.setTitle(e ? '**Error**' : '**Success**')
 					.setColor(e ? 'RED' : 'GREEN')
 					.setDescription(`\`\`\`${result.substr(0, 2042)}\`\`\``)
