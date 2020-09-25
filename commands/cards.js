@@ -13,7 +13,9 @@ const count = (str) => {
 }
 exports.run = async (client, message, args, level) => {
   let user = message.author
-  if (args[0]) user = await client.fetchUser(args.join(' '), message)
+  let search
+  if (args[0]) search = await client.fetchUser(args.join(' '), message);
+  if (search) user = search
   let black = await client.cards.filter(c => c.type == 'black')
   let white = await client.cards.filter(c => c.type == 'white')
   let combos = 0
