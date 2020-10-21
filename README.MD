@@ -5,3 +5,5 @@ A bot for the IIslands of War discord sever.
 
 ## Usage:
 Default Prefix: `-`
+
+Help command `help`
