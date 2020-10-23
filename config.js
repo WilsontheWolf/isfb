@@ -32,7 +32,7 @@ const config = {
           const modRole = message.guild.roles.cache.find(
             r => r.name.toLowerCase() === message.settings.modRole.toLowerCase()
           );
-          if (modRole && message.member.roles.has(modRole.id)) return true;
+          if (modRole && message.member.roles.cache.has(modRole.id)) return true;
         } catch (e) {
           return false;
         }
@@ -48,7 +48,7 @@ const config = {
             r =>
               r.name.toLowerCase() === message.settings.adminRole.toLowerCase()
           );
-          return adminRole && message.member.roles.has(adminRole.id);
+          return adminRole && message.member.roles.cache.has(adminRole.id);
         } catch (e) {
           return false;
         }
