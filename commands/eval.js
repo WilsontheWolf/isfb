@@ -15,7 +15,7 @@ exports.run = async (client, message, args, level) => {
 	if (message.flags.includes("d")) {
 		message.delete().catch(O_o => {});
 	}
-	embed = new Discord.MessageEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setFooter(`Eval command executed by ${message.author.username}`)
 		.setTimestamp()
 	let code = args.join(" ");
