@@ -568,24 +568,6 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-better-sqlite-pool@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/better-sqlite-pool/-/better-sqlite-pool-0.3.0.tgz#0f81d8501bf5b8ca21c5e614fc92a8c457a4e6a6"
-  integrity sha512-VNO8ERuNcVPsS/Tq0xSFU7uw+7zu+SM48BmtG5Zcx9uJMQnfG1LPbTHpzZTmndyKGAel31RnChtMYhVpQKgHBQ==
-  dependencies:
-    better-sqlite3 "^6.0.1"
-    lodash "^4.17.15"
-
-better-sqlite3@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/better-sqlite3/-/better-sqlite3-6.0.1.tgz#391f827c119fbc4e92b1d4969c558f07c17c5c15"
-  integrity sha512-4aV1zEknM9g1a6B0mVBx1oIlmYioEJ8gSS3J6EpN1b1bKYEE+N5lmpmXHKNKTi0qjHziSd7XrXwHl1kpqvEcHQ==
-  dependencies:
-    bindings "^1.5.0"
-    integer "^3.0.1"
-    prebuild-install "^5.3.3"
-    tar "4.4.10"
-
 better-sqlite3@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/better-sqlite3/-/better-sqlite3-7.1.0.tgz#4894d0fa4002bd7859a0a539577f14f24b245f6a"
@@ -881,10 +863,10 @@ devtools-protocol@0.0.781568:
   resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.781568.tgz#4cdca90a952d2c77831096ff6cd32695d8715a04"
   integrity sha512-9Uqnzy6m6zEStluH9iyJ3iHyaQziFnMnLeC8vK0eN6smiJmIx7+yB64d67C2lH/LZra+5cGscJAJsNXO+MdPMg==
 
-discord.js@^12.4.0:
-  version "12.4.0"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.4.0.tgz#a96864495ec766fab25225b2123a9704c667280b"
-  integrity sha512-Lc+/vKzih1DPEya/0MO0BAp4Ru/4+MfDsOJkfbyzGoyIlFqiWSQ78RdyRk4tqAtabl6d5QR4Ygo0Ub0TGEsXBg==
+discord.js@^12.5.1:
+  version "12.5.1"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.5.1.tgz#992b45753e3815526a279914ccc281d3496f5990"
+  integrity sha512-VwZkVaUAIOB9mKdca0I5MefPMTQJTNg0qdgi1huF3iwsFwJ0L5s/Y69AQe+iPmjuV6j9rtKoG0Ta0n9vgEIL6w==
   dependencies:
     "@discordjs/collection" "^0.1.6"
     "@discordjs/form-data" "^3.0.1"
@@ -1571,14 +1553,6 @@ inquirer@^7.3.0:
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
     through "^2.3.6"
-
-integer@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/integer/-/integer-3.0.1.tgz#49b17f2543e7fd3f606f5bcc968be7a9c4690f73"
-  integrity sha512-OqtER6W2GIJTIcnT5o2B/pWGgvurnVOYs4OZCgay40QEIbMTnNq4R0KSaIw1TZyFtPWjm5aNM+pBBMTfc3exmw==
-  dependencies:
-    bindings "^1.5.0"
-    prebuild-install "^5.3.3"
 
 ipaddr.js@1.9.1:
   version "1.9.1"

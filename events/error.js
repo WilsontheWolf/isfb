@@ -1,4 +1,4 @@
-const { Client } = require("discord.js");
+const { Client } = require('discord.js');
 
 /**
  * Error Event
@@ -6,8 +6,8 @@ const { Client } = require("discord.js");
  * @param {Error} error
  */
 module.exports = async (client, error) => {
-  client.logger.log(
-    `An error event was sent by Discord.js: \n${JSON.stringify(error)}`,
-    "error"
-  );
+    client.logger.log(
+        `An error event was sent by Discord.js: \n${JSON.stringify(error)}`,
+        'error'
+    );
 };
