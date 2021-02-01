@@ -43,8 +43,8 @@ module.exports = client => {
                 console.log(users.length);
                 for (var i = 0; i != users.length && i != 10; i++) {
                     question =
-            question +
-            `[${i + 1}] ${users[i].tag}
+                        question +
+                        `[${i + 1}] ${users[i].tag}
 `;
                 }
                 let num = await client.awaitReply(
@@ -71,8 +71,8 @@ ${question}`
             console.log(users.length);
             for (var i = 0; i != users.length && i != 10; i++) {
                 question =
-          question +
-          `[${i + 1}] ${users[i].displayName} (${users[i].user.tag})
+                    question +
+                    `[${i + 1}] ${users[i].displayName} (${users[i].user.tag})
 `;
             }
             let num = await client.awaitReply(
@@ -189,9 +189,9 @@ ${question}`
         if (name == 'windmill') name = 'windmill_' + client.Rnd(0, 9);
         return (
             'https://cdn.glitch.com/7eb7f1a0-e3d7-403c-a0b9-c7a513975734%2F_' +
-      name +
-      '.png?' +
-      client.Rnd(0, 1234567876)
+            name +
+            '.png?' +
+            client.Rnd(0, 1234567876)
         );
     };
     client.parse_island = (file, object = true) => {
@@ -245,27 +245,27 @@ ${question}`
     client.reverse_island = par => {
         try {
             let rev =
-        par.coreX +
-        ' ' +
-        par.coreY +
-        ' ' +
-        par.islandWidth +
-        ' ' +
-        par.islandHeight +
-        ' ' +
-        par.islandOffsetX +
-        ' ' +
-        par.islandOffsetY;
+                par.coreX +
+                ' ' +
+                par.coreY +
+                ' ' +
+                par.islandWidth +
+                ' ' +
+                par.islandHeight +
+                ' ' +
+                par.islandOffsetX +
+                ' ' +
+                par.islandOffsetY;
             for (let i = 0; i < 12; i++) {
                 for (let j = 0; j < 12; j++) {
                     rev =
-            rev +
-            ' ' +
-            (par.block[i][j] ? par.block[i][j] : '_') +
-            ' ' +
-            (par.attachment[i][j] ? par.attachment[i][j] : '_') +
-            ' ' +
-            (par.keybind[i][j] ? par.keybind[i][j] : '_');
+                        rev +
+                        ' ' +
+                        (par.block[i][j] ? par.block[i][j] : '_') +
+                        ' ' +
+                        (par.attachment[i][j] ? par.attachment[i][j] : '_') +
+                        ' ' +
+                        (par.keybind[i][j] ? par.keybind[i][j] : '_');
                 }
             }
             return rev;
@@ -399,12 +399,51 @@ ${question}`
         let m;
         if (u.guild && u.guild.id == '501043184361537547') m = u;
         else m = client.guilds.get('501043184361537547').members.get(u.id);
-        if(!m) return;
-        if(m.id == '259066297109839872') return 'Jwiggs';
-        if(m.roles.has('675944407744249885')) return 'Nova';
-        if(m.roles.has('675944306917376000')) return 'Prime';
-        if(m.roles.has('675944354547892264')) return 'Strike';
-        if(['406538226258411524', '405816250866860032'].includes(m.id)) return 'Alt';
-        return; 
+        if (!m) return;
+        if (m.id == '259066297109839872') return 'Jwiggs';
+        if (m.roles.has('675944407744249885')) return 'Nova';
+        if (m.roles.has('675944306917376000')) return 'Prime';
+        if (m.roles.has('675944354547892264')) return 'Strike';
+        if (['406538226258411524', '405816250866860032'].includes(m.id)) return 'Alt';
+        return;
+    };
+    client.pastBedtime = (start, end, cur) => {
+        // Goes from one day to another
+        if (start > end)
+            if (cur > start || cur < end) return true;
+        // same day
+        if (start < end)
+            if (cur > start && cur < end) return true;
+        return false;
+    };
+    const timeRegex = /^(\d{1,2})(?:[:.](\d{1,2}))?(am|pm)?$/i;
+
+    client.parseTime = (string) => {
+        let match = string.match(timeRegex);
+        if (!match) throw new Error('Invalid time string.');
+        let [, hour, minute = '00', am = 'am'] = match;
+        hour = Number(hour);
+        minute = Number(minute);
+        am = am.toLowerCase();
+        if (isNaN(hour) || isNaN(minute) || !['am', 'pm'].includes(am)) throw new Error('Invalid time string.');
+        if (hour === 12) hour = 0;
+        if (am === 'pm') hour += 12;
+        hour += (minute / 60);
+        if (hour > 23) throw new Error('Past max time.');
+        if (hour < 0) throw new Error('Past min time.');
+        return hour;
+    };
+
+    client.getTime = (time) => {
+        let hours = Math.floor(time);
+        let mins = Math.round((time - hours) * 60);
+        let am = 'am';
+        if (hours > 23) hours -= 24;
+        if (hours > 11) {
+            hours = hours - 12;
+            am = 'pm';
+        }
+        if (hours === 0) hours = 12;
+        return `${hours}:${mins.toString().padStart(2, '0')}${am}`;
     };
 };

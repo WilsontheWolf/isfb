@@ -52,8 +52,8 @@ exports.run = (client, message, args, level) => {
         });
     } else {
         let command = args[0];
-        if (client.commands.has(command)) {
-            command = client.commands.get(command);
+        if (client.commands.get(command) || client.commands.get(client.aliases.get(command))) {
+            command = client.commands.get(command) || client.commands.get(client.aliases.get(command));
             if (level < client.levelCache[command.conf.permLevel]) return;
             message.channel.send(
                 `= ${command.help.name} = \n${command.help.description}\nusage:: ${
@@ -63,7 +63,7 @@ exports.run = (client, message, args, level) => {
                 } =`,
                 { code: 'asciidoc' }
             );
-        }
+        } else return message.reply('Command not found.');
     }
 };
 

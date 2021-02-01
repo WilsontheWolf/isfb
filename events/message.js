@@ -1,5 +1,24 @@
 const Discord = require('discord.js');
 const { Client, Message } = require('discord.js');
+
+const bedtime = async (message) => {
+    let data = await message.client.times.get(`${message.author.id}`);
+    if (!data) return;
+    let { offset, bedtime, lastAlert } = data;
+    if (isNaN(offset) || !Array.isArray(bedtime)) return;
+    if (Date.now() - lastAlert < 600000) return;
+    let date = new Date(Date.now() + (offset * 60 * 60 * 1000));
+    let time = date.getUTCHours() + date.getUTCMinutes() / 60;
+    let newAlert = Date.now();
+    if (message.client.pastBedtime(...bedtime, time))
+        message.author.send(`Hey ${message.author}, It's past your set bedtime (\`${message.client.getTime(time)}\`)! Make sure your getting enough sleep!`)
+            .catch(() =>
+                message.channel.send(`Hey ${message.author}, It's past your set bedtime (\`${message.client.getTime(time)}\`)! Make sure your getting enough sleep!`)
+                    .catch(() => { newAlert = lastAlert; })
+            );
+    message.client.times.set(`${message.author.id}.lastAlert`, newAlert);
+};
+
 /**
  * Message Event
  * @param {Client} client
@@ -7,7 +26,9 @@ const { Client, Message } = require('discord.js');
  */
 module.exports = async (client, message) => {
     // Prevent botception 
-    if (message.author.bot) return; 
+    if (message.author.bot) return;
+    // Tell people who need to go to sleep to go to sleep.
+    bedtime(message);
     // Get settings
     const settings = (message.settings = client.getSettings(message.guild) || client.settings.get('default'));
     // Prefix mention 
@@ -54,11 +75,10 @@ This command requires level ${client.levelCache[cmd.conf.permLevel]} (${cmd.conf
     message.author.permLevel = level;
     // Flags
     message.flags = [];
-    while (args[0] && args[0][0] === '-') 
+    while (args[0] && args[0][0] === '-')
         message.flags.push(args.shift().slice(1));
     client.logger.cmd(
-        `[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${
-            message.author.username
+        `[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${message.author.username
         } (${message.author.id}) ran command ${cmd.help.name}`
     );
     try {

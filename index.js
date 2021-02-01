@@ -10,8 +10,8 @@ const Discord = require('discord.js');
 const { promisify } = require('util');
 const readdir = promisify(require('fs').readdir);
 const Enmap = require('enmap');
-const Josh = require('josh');
-const provider = require('@josh-providers/sqlite');
+const Josh = require('@joshdb/core');
+const provider = require('@joshdb/sqlite');
 const express = require('express');
 
 // Start express server
@@ -51,6 +51,10 @@ client.crystals = new Josh({
     provider
 });
 
+client.times = new Josh({
+    name: 'times',
+    provider
+});
 
 const init = async () => {
     // Load commands
