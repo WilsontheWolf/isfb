@@ -429,7 +429,7 @@ ${question}`
         if (hour === 12) hour = 0;
         if (am === 'pm') hour += 12;
         hour += (minute / 60);
-        if (hour > 23) throw new Error('Past max time.');
+        if (hour >= 24) throw new Error('Past max time.');
         if (hour < 0) throw new Error('Past min time.');
         return hour;
     };

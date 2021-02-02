@@ -10,12 +10,12 @@ const bedtime = async (message) => {
     let date = new Date(Date.now() + (offset * 60 * 60 * 1000));
     let time = date.getUTCHours() + date.getUTCMinutes() / 60;
     let newAlert = Date.now();
-    if (message.client.pastBedtime(...bedtime, time))
-        message.author.send(`Hey ${message.author}, It's past your set bedtime (\`${message.client.getTime(time)}\`)! Make sure your getting enough sleep!`)
-            .catch(() =>
-                message.channel.send(`Hey ${message.author}, It's past your set bedtime (\`${message.client.getTime(time)}\`)! Make sure your getting enough sleep!`)
-                    .catch(() => { newAlert = lastAlert; })
-            );
+    if (!message.client.pastBedtime(...bedtime, time)) return;
+    message.author.send(`Hey ${message.author}, It's past your set bedtime (\`${message.client.getTime(time)}\`)! Make sure your getting enough sleep!`)
+        .catch(() =>
+            message.channel.send(`Hey ${message.author}, It's past your set bedtime (\`${message.client.getTime(time)}\`)! Make sure your getting enough sleep!`)
+                .catch(() => { newAlert = lastAlert; })
+        );
     message.client.times.set(`${message.author.id}.lastAlert`, newAlert);
 };
 
