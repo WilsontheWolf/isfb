@@ -350,17 +350,17 @@
     "@babel/runtime" "^7.7.2"
     regenerator-runtime "^0.13.3"
 
-"@joshdb/core@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@joshdb/core/-/core-1.1.3.tgz#b0dee5a85b8c5d0b39fde3006e59639f1967bda8"
-  integrity sha512-Brb7Uh19HSB+BMc+veUy1upFP8i0iJ+f4hdjSEhugyZEkU4CMD7zzHxSsn2U4lZdNcM4Wdx2tvc6ecMh1OqMAQ==
+"@joshdb/core@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@joshdb/core/-/core-1.1.4.tgz#65ec375c143e00ff1eb439e98d30b240dce2be7f"
+  integrity sha512-0/OJgdpp7jYXmX/7f5BJM86E1S8RRHIlsKKjVob6JYvTinOjHnnFJCBqSUDEdS6ibfUdfdaLgv3K6aCfa4zMzg==
   dependencies:
     lodash "^4.17.20"
 
-"@joshdb/sqlite@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@joshdb/sqlite/-/sqlite-1.1.4.tgz#569964ffe397b367dacf03e856ec24b5092f3843"
-  integrity sha512-wOn6lUciK3fcTXVbxTpq47i3RX3//OwzqDfwxgAJ4WYncyfs9/dk4SBXHxRhtB4+byaf8S1aG0bbxDqqVDLFRQ==
+"@joshdb/sqlite@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@joshdb/sqlite/-/sqlite-1.1.6.tgz#316c4e4370f5cbd9b3fd82806fe3a6a278812d12"
+  integrity sha512-VxUF62R5XvXuoreifRgVLJKW4fznLLt/H3kzy7b63Nvz2pg50J89mcZhHeFG/tl39e81rrBRN8+bcXZ+PlHuew==
   dependencies:
     better-sqlite3 "^7.1.0"
     lodash "^4.17.15"
