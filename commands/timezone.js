@@ -23,7 +23,7 @@ exports.run = async (client, message, args, level) => {
                 let date = new Date(Date.now() + (offset * 60 * 60 * 1000));
                 let time = date.getUTCHours() + date.getUTCMinutes() / 60;
                 message.channel.send(`For ${user.username} it is currently \`${client.getTime(time)}\`.
-Their offset it UTC ${offset}.
+Their offset is UTC ${offset}.
 ${bedtime ? client.pastBedtime(...bedtime, time) ? `It's past ${user.username}'s set bedtime.` : '' : ''}`);
             }
         },
@@ -32,8 +32,7 @@ ${bedtime ? client.pastBedtime(...bedtime, time) ? `It's past ${user.username}'s
             names: ['set', 'edit'],
             level: 0,
             run: async (args) => {
-                let time = Number(args[0]);
-                if(time === 'none') {
+                if (args[0] === 'none') {
                     await client.times.ensure(message.author.id, {
                         offset: null,
                         bedtime: null,
@@ -42,12 +41,14 @@ ${bedtime ? client.pastBedtime(...bedtime, time) ? `It's past ${user.username}'s
                     await client.times.set(`${message.author.id}.offset`, null);
                     return message.reply('I have cleared your time offset.');
                 }
+                let time = Number(args[0]);
                 if (isNaN(time)) return message.reply('Please supply a valid offset.');
-                await client.times.ensure(message.author.id, {
-                    offset: null,
-                    bedtime: null,
-                    lastAlert: 0
-                });
+                if (-12 > time || time > 14) return message.reply('Please supply a valid offset.');
+                    await client.times.ensure(message.author.id, {
+                        offset: null,
+                        bedtime: null,
+                        lastAlert: 0
+                    });
                 await client.times.set(`${message.author.id}.offset`, time);
                 message.reply(`I have set your offset as UTC ${time}`);
             }
