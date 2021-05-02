@@ -74,8 +74,8 @@ exports.run = async (client, message, args, level) => {
         let size = await games.size;
         // hard coded size check go brrrrrrrrrrrrrrrr
         if (size >= 1) return message.reply('Sorry the maximum amount of games has been reached!');
-        let white = await client.cards.filter(c => c.type == 'white' && !c.value.includes('http'));
-        let black = await client.cards.filter(c => c.type == 'black' && count(c.value) < 3);
+        let white = Object.values(await client.cards.filter(c => c.type == 'white' && !c.value.includes('http')));
+        let black = Object.values(await client.cards.filter(c => c.type == 'black' && count(c.value) < 3));
         let id = await genCode();
         await games.set(id, {
             id,
@@ -86,7 +86,8 @@ exports.run = async (client, message, args, level) => {
             players: {},
             czar: null,
             round: 0,
-            state: 'waiting'
+            state: 'waiting',
+            choices: null
         });
         message.reply(`I've created your game. The code is \`${id}\`. To join type \`-iaj join ${id}\`.`);
     };
@@ -94,31 +95,39 @@ exports.run = async (client, message, args, level) => {
         let game = await games.get(id);
         if (!game) return message.reply('No such game!');
         if (level < 9 && game.owner != message.author.id) return message.reply('You don\'t have the permissions to start this game.');
-        if (Object.keys(game.players).size < 3) return message.reply('You don\'t have enough players to continue.');
+        if (Object.keys(game.players).length < 3) return message.reply('You don\'t have enough players to continue.');
         client.emit('cahStart', id);
         message.reply('I\'ve started your game.');
     };
-    funcs.join = async function join(id) {
-        if (await games.find(g => g.players[message.author.id])) return message.reply('You are already in a game.');
+    funcs.end = async function end(id) {
         let game = await games.get(id);
         if (!game) return message.reply('No such game!');
-        if (game.players[message.author.id] && game.players[message.author.id]) return message.reply('You\'re already in this game.');
-        if (game.players[message.author.id] && !game.players[message.author.id]) {
+        if (level < 9 && game.owner != message.author.id) return message.reply('You don\'t have the permissions to end this game.');
+        client.emit('cahEnd', id);
+        message.reply('I\'ve ended your game.');
+    };
+    funcs.join = async function join(id) {
+        if (await games.find(g => g.players[message.author.id] && g.id !== id)) return message.reply('You are already in another game.');
+        let game = await games.get(id);
+        if (!game) return message.reply('No such game!');
+        if (game.players[message.author.id] && game.players[message.author.id].enabled) return message.reply('You\'re already in this game.');
+        if (game.players[message.author.id] && !game.players[message.author.id].enabled) {
             await games.set(`${id}.players.${message.author.id}.enabled`, true);
             message.reply('You have re-joined the game. You can participate next round.');
-            await games.set(`${id}.players.${message.author.id}.selected`, 'idk');
+            await games.set(`${id}.players.${message.author.id}.selected`, []);
         } else {
             let faction = client.getFaction(message.member || message.author);
-            if (!client.getFaction(message.member || message.author)) return message.reply('You must be in a faction to join.');
-            await games.set(`id.players.${message.author.id}`, {
+            if (!faction) return message.reply('You must be in a faction to join.');
+            await games.set(`${id}.players.${message.author.id}`, {
                 id: message.author.id,
                 points: 0,
                 selected: [],
                 cards: [],
                 faction,
-                enabled: true
+                enabled: true,
+                pos: Object.keys(game.players).length
             });
-            message.reply('suc your game.');
+            message.reply('I\'ve joined your game.');
         }
     };
     const editValue = async (id, o, n) => {

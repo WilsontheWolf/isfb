@@ -16,11 +16,11 @@ exports.run = async (client, message, args, level) => {
     let search;
     if (args[0]) search = await client.fetchUser(args.join(' '), message);
     if (search) user = search;
-    let black = await client.cards.filter(c => c.type == 'black');
-    let white = await client.cards.filter(c => c.type == 'white');
+    let black = Object.values(await client.cards.filter(c => c.type == 'black'));
+    let white = Object.values(await client.cards.filter(c => c.type == 'white'));
     let combos = 0;
     black.forEach(c => {
-        combos += count(c[0].value) || 1;
+        combos += count(c.value) || 1;
     });
     combos = combos * white.length;
     const embed = new Discord.MessageEmbed()
