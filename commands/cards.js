@@ -29,7 +29,7 @@ exports.run = async (client, message, args, level) => {
         .addField('Black Cards:', black.length, true)
         .addField('White Cards:', white.length, true)
         .addField('Unique Combos:', combos, true)
-        .addField(`${user == message.author ? 'Your' : user.username + '\'s'} Cards:`, (await client.cards.filter(c => c.owner == user.id)).length, true);
+        .addField(`${user == message.author ? 'Your' : user.username + '\'s'} Cards:`, Object.keys(await client.cards.filter(c => c.owner == user.id)).length, true);
     message.channel.send(embed);
 };
 

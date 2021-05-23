@@ -49,7 +49,7 @@ exports.run = async (client, message, args, level) => {
     };
     funcs.search = async function search() {
         let q = Object.values(arguments);
-        let cds = await client.cards.filter(v => v.toLowerCase().includes(q.join(' ').toLowerCase()), 'value');
+        let cds = Object.entries(await client.cards.filter(v => v.toLowerCase().includes(q.join(' ').toLowerCase()), 'value'));
         if (!cds.length) return message.reply('no results found.');
         let r = cds.map((v) => `${v[0]} ${client.users.cache.has(v[1].owner) ? client.users.cache.get(v[1].owner).tag : 'Unknown User (' + v[1].owner + ')'} ${v[1].type}: ${v[1].value}`).join('\n');
         const embed = new Discord.MessageEmbed()
