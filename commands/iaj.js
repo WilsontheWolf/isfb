@@ -74,8 +74,8 @@ exports.run = async (client, message, args, level) => {
         let size = await games.size;
         // hard coded size check go brrrrrrrrrrrrrrrr
         if (size >= 1) return message.reply('Sorry the maximum amount of games has been reached!');
-        let white = Object.values(await client.cards.filter(c => c.type == 'white' && !c.value.includes('http')));
-        let black = Object.values(await client.cards.filter(c => c.type == 'black' && count(c.value) < 3));
+        let white = Object.values(await client.cards.filter(c => c.type == 'white' && !c.value.includes('http') && c.value.length < 150));
+        let black = Object.values(await client.cards.filter(c => c.type == 'black' && count(c.value) < 3 && c.value.length < 200));
         let id = await genCode();
         await games.set(id, {
             id,
@@ -103,7 +103,7 @@ exports.run = async (client, message, args, level) => {
         let game = await games.get(id);
         if (!game) return message.reply('No such game!');
         if (level < 9 && game.owner != message.author.id) return message.reply('You don\'t have the permissions to end this game.');
-        client.emit('cahEnd', id);
+        client.emit('cahEnd', id, 'An admin ended the game.');
         message.reply('I\'ve ended your game.');
     };
     funcs.join = async function join(id) {
@@ -128,6 +128,7 @@ exports.run = async (client, message, args, level) => {
                 pos: Object.keys(game.players).length
             });
             message.reply('I\'ve joined your game.');
+            client.emit('cahWSUpdate', game.id);
         }
     };
     const editValue = async (id, o, n) => {

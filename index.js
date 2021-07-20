@@ -13,14 +13,83 @@ const Enmap = require('enmap');
 const Josh = require('@joshdb/core');
 const provider = require('@joshdb/sqlite');
 const express = require('express');
+const WebSocket = require('ws');
 
 // Start express server
 const app = express();
-app.listen(process.env.PORT);
+const server = app.listen(process.env.PORT);
 app.use(express.static(__dirname + '/views'));
 
 // Make the client
 const client = new Discord.Client();
+
+// Manage WS server for IAJ
+const wss = new WebSocket.Server({ noServer: true });
+client.iajWSS = wss;
+
+server.on('upgrade', (request, socket, head) => {
+    const match = request?.url?.match(/^\/iaj\/(\w+)/);
+    if (!match) {
+        socket.write('HTTP/1.1 400 Bad Request\r\n\r\n');
+        socket.destroy();
+        return;
+    }
+    wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit('connection', ws, { ...request, iajCode: match[1] });
+    });
+});
+wss.on('connection', async (ws, { iajCode }) => {
+    const send = (msg) => {
+        if (typeof msg !== 'string') msg = JSON.stringify(msg);
+        ws.send(msg);
+    };
+    if (!iajCode) {
+        send({
+            type: 'fatal',
+            message: 'Invalid code'
+        });
+        ws.close(1008, 'Invalid code');
+        return;
+    }
+    ws.code = iajCode;
+    if (!(await client.games.has(iajCode))) {
+        send({
+            type: 'fatal',
+            message: 'Invalid code'
+        });
+        ws.close(1008, 'Invalid code');
+        return;
+    }
+    ws.on('message', async (message) => {
+        try {
+            let msg = JSON.parse(message);
+            if (msg.type === 'update') {
+                send(await client.wsGenData(iajCode));
+            }
+            else {
+                send({
+                    type: 'debug',
+                    message: `Invalid type sent "${msg.type}"`
+                });
+            }
+        } catch (e) {
+            console.error('Invalid client msg!', message, '\nError:', e);
+            send({
+                type: 'debug',
+                message: `Invalid client msg! ${message}`,
+            });
+        }
+    });
+    ws.on('close', () => {
+        // idk
+    });
+    send(await client.wsGenData(iajCode));
+    await client.wait(2000);
+    send({
+        type: 'info',
+        message: 'Note this is a beta version'
+    });
+});
 
 // load stuffs
 client.config = require('./config.js');

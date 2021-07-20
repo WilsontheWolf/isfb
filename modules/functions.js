@@ -396,12 +396,12 @@ ${question}`
         console.error(err);
     });
     client.getFaction = (u) => {
-        if (['406538226258411524', '405816250866860032'].includes(u.id)) return 'Alt';
+        if (['406538226258411524', '405816250866860032', '552178225468669962'].includes(u.id)) return 'Alt';
+        if (u.id === '259066297109839872') return 'Jwiggs';
         let m;
         if (u.guild && u.guild.id == '501043184361537547') m = u;
         else m = client.guilds.cache.get('501043184361537547').members.cache.get(u.id);
         if (!m) return;
-        if (m.id == '259066297109839872') return 'Jwiggs';
         if (m.roles.cache.has('675944407744249885')) return 'Nova';
         if (m.roles.cache.has('675944306917376000')) return 'Prime';
         if (m.roles.cache.has('675944354547892264')) return 'Strike';
@@ -445,5 +445,19 @@ ${question}`
         }
         if (hours === 0) hours = 12;
         return `${hours}:${mins.toString().padStart(2, '0')}${am}`;
+    };
+
+    client.wsGenData = async (code) => {
+        let { curBlack, players, czar, state, round } = await client.games.get(code);
+        players = Object.values(players).map(p => {
+            delete p.cards;
+            return p;
+        });
+        return JSON.stringify({
+            type: 'data',
+            data: {
+                curBlack, players, czar, state, round
+            }
+        });
     };
 };

@@ -44,11 +44,11 @@ ${bedtime ? client.pastBedtime(...bedtime, time) ? `It's past ${user.username}'s
                 let time = Number(args[0]);
                 if (isNaN(time)) return message.reply('Please supply a valid offset.');
                 if (-12 > time || time > 14) return message.reply('Please supply a valid offset.');
-                    await client.times.ensure(message.author.id, {
-                        offset: null,
-                        bedtime: null,
-                        lastAlert: 0
-                    });
+                await client.times.ensure(message.author.id, {
+                    offset: null,
+                    bedtime: null,
+                    lastAlert: 0
+                });
                 await client.times.set(`${message.author.id}.offset`, time);
                 message.reply(`I have set your offset as UTC ${time}`);
             }

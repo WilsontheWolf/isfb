@@ -30,8 +30,15 @@ module.exports = async (client, message) => {
 If you want to rejoin the game run the command \`-iaj join ${game.id}\``);
     let c = count(game.curBlack.value);
     if (message.content == 'leave') {
+        if (game.czar === message.author.id) return message.reply('You can\'t leave the game if your the czar. Please wait for next round.');
         await client.games.set(`${game.id}.players.${message.author.id}.enabled`, false,);
-        message.reply('You have left this game.');
+        message.reply(`You have left this game.
+If you want to rejoin the game run the command \`-iaj join ${game.id}\``);
+        game.players[message.author.id].enabled = false;
+        if (game.state == 'picking' && Object.values(game.players).every(p => p.selected || game.czar === p.id || !p.enabled))
+            client.emit('cahVote', game.id);
+        else
+            client.emit('cahWSUpdate', game.id);
     } else {
         const args = message.content
             .trim()
@@ -63,9 +70,13 @@ If you want to rejoin the game run the command \`-iaj join ${game.id}\``);
                 .setTitle(`I've submitted your card for round ${game.round}`)
                 .setDescription(`**Filled in card**:
 ${filled}`)
-                .setFooter('Please wait for everyone to submit...'))
+                .setFooter('Please wait for everyone to submit...')
+                .setColor('GREEN'))
                 .catch(e => console.error(`Error sending dm to ${message.author.tag} (${player.id}).`, e));
-            if (Object.values(game.players).every(p => p.selected || game.czar === p.id)) client.emit('cahVote', game.id);
+            if (Object.values(game.players).every(p => p.selected || game.czar === p.id || !p.enabled))
+                client.emit('cahVote', game.id);
+            else
+                client.emit('cahWSUpdate', game.id);
         } else if (game.state == 'picking' && game.czar != message.author.id && player.selected) {
             return message.channel.send('You have already submitted for this round.');
         } else if (game.state == 'voting' && game.czar === message.author.id) {
@@ -75,8 +86,9 @@ ${filled}`)
             if (isNaN(num)) return message.reply('Please choose a valid number.');
             else if (num > cards.length || num < 1) return message.reply('Please choose a number in valid range.');
             const win = cards[num - 1];
-            client.games.set(`${game.id}.state`, 'displaying');
-            client.games.inc(`${game.id}.players.${win.player}.points`);
+            await client.games.set(`${game.id}.state`, 'displaying');
+            await client.games.inc(`${game.id}.players.${win.player}.points`);
+            client.emit('cahWSScores', game.id, win);
             game.players[win.player].points++;
             let scores = {};
             for (const pid in game.players) {
@@ -87,6 +99,7 @@ ${filled}`)
                 .map(([key, value]) => `**${key}**: ${value}`)
                 .join('\n');
             for (const pid in game.players) {
+                if (!game.players[pid].enabled) continue;
                 let user = await client.users.fetch(pid);
                 if (!user) {
                     console.error(`Error Finding User ${game.czar} in game ${game.id}!!!
@@ -99,7 +112,8 @@ This shouldn't happen!`);
                     .setDescription(`**The winning card is**:
 ${win.filled}`)
                     .addField('The winner is:', `${client.users.cache.get(win.player)?.tag || `Unknown User (${win.player})`} (${game.players[win.player].faction})`)
-                    .addField('The scores are:', scores))
+                    .addField('The scores are:', scores)
+                    .setColor('YELLOW'))
                     .catch(e => console.error(`Error sending dm to ${user.tag} (${pid}).`, e));
             }
             setTimeout(() => {

@@ -10,7 +10,7 @@ module.exports = async (client, id) => {
     if (!game) return console.warn(`Something tried starting game ${id} but it doesn't exist.`);
     if (game.state != 'waiting') return console.warn(`Something tried starting game ${id} but it isn't waiting.`);
     for (const pid in game.players) {
-        for (let i = 0; i < 8; i++)
+        for (let i = 0; i < 10; i++)
             game.players[pid].cards.push(await getCard(id, client, 'white'));
     }
     await games.set(`${id}.players`, game.players);
