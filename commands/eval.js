@@ -52,11 +52,11 @@ ${' '.repeat(error.column - 1)}${'^'.repeat(length)}
     embed
         .setTitle(e ? '**Error**' : '**Success**')
         .setColor(e ? 'RED' : 'GREEN')
-        .setDescription(`\`\`\`${response.substr(0, 2042)}\`\`\``);
-    if (length >= 2049) {
-        console.log(`An eval command executed by ${message.author.username}'s response was too long \(${length}/2048\) the response was:
+        .setDescription(`\`\`\`${response.substr(0, 4090)}\`\`\``);
+    if (length >= 4097) {
+        console.log(`An eval command executed by ${message.author.username}'s response was too long \(${length}/4096\) the response was:
 ${response}`);
-        embed.addField('Note:', `The response was too long with a length of \`${length}/2048\` characters. it was logged to the console`);
+        embed.addField('Note:', `The response was too long with a length of \`${length}/4096\` characters. it was logged to the console`);
     }
     msg = await message.channel.send(embed);
     msg.react('💥');

@@ -26,13 +26,13 @@ exports.run = async (client, message, args, level) => {
                 let result = stdout && stderr ? `Stdout:\n${stdout}\nStderr:\n${stderr}`: stdout || stderr;
                 embed.setTitle(e ? '**Error**' : '**Success**')
                     .setColor(e ? 'RED' : 'GREEN')
-                    .setDescription(`\`\`\`${result.substr(0, 2042)}\`\`\``);
-                if (result.length >= 2049) {
-                    console.log(`An exec command executed by ${message.author.username}'s response was too long \(${result.length}/2048\) the response was:
+                    .setDescription(`\`\`\`${result.substr(0, 4090)}\`\`\``);
+                if (result.length >= 4097) {
+                    console.log(`An exec command executed by ${message.author.username}'s response was too long \(${result.length}/4096\) the response was:
 				${result}`);
                     embed.addField(
                         'Note:',
-                        `The response was too long with a length of \`${result.length}/2048\` characters. it was logged to the console`
+                        `The response was too long with a length of \`${result.length}/4096\` characters. it was logged to the console`
                     );
                 }
                 message.channel.send(embed);
