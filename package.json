@@ -2,9 +2,9 @@
   "name": "iiislander",
   "version": "2.0.0",
   "description": "Edits and inspects iislands of war game savefiles",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node ."
   },
   "author": "WilsontheWolf",
   "contributors": [

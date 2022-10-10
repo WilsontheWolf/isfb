@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  bot:
+    image: wilsonthewolf/isfb
+    container_name: isfb
+    env_file:
+      - .env
+    volumes:
+      - data:/app/data
+      - backups:/app/backups
+    restart: on-failure:5
+    stop_grace_period: 10s
+
+volumes:
+  data:
+  backups:

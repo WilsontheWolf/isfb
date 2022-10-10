@@ -127,7 +127,7 @@ client.times = new Josh({
 
 const init = async () => {
     // Load commands
-    const cmdFiles = await readdir('./commands/');
+    const cmdFiles = await readdir('./src/commands/');
     client.logger.log(`Loading a total of ${cmdFiles.length} commands.`);
     cmdFiles.forEach(f => {
         if (!f.endsWith('.js')) return;
@@ -135,7 +135,7 @@ const init = async () => {
         if (response) console.log(response);
     });
     // Load Events
-    const evtFiles = await readdir('./events/');
+    const evtFiles = await readdir('./src/events/');
     client.logger.log(`Loading a total of ${evtFiles.length} events.`);
     evtFiles.forEach(file => {
         const eventName = file.split('.')[0];
@@ -151,7 +151,11 @@ const init = async () => {
         client.levelCache[thisLevel.name] = thisLevel.level;
     }
     // Login
-    client.login(client.config.token);
+    await client.login(client.config.token);
 };
 
-init();
+init()
+    .catch(e => {
+        console.error(e);
+        process.exit(1);
+    });
