@@ -17,7 +17,7 @@ const WebSocket = require('ws');
 
 // Start express server
 const app = express();
-const server = app.listen(process.env.PORT);
+const server = app.listen(process.env.PORT || 3000);
 app.use(express.static(__dirname + '/views'));
 
 // Make the client
