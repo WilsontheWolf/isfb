@@ -4,14 +4,14 @@ name: Release Docker Image
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     if: "! contains(toJSON(github.event.commits.*.message), 'chore(deps-dev)')"
     concurrency:
-      group: master
+      group: main
       cancel-in-progress: true
     steps:
       - name: Checkout
