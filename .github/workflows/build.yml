@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "! contains(toJSON(github.event.commits.*.message), 'chore(deps-dev)')"
     concurrency:
-      group: main
+      group: master
       cancel-in-progress: true
     steps:
       - name: Checkout
