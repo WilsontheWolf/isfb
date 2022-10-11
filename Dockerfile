@@ -31,5 +31,7 @@ COPY --chown=node:node src/ src/
 
 USER node:node
 
+EXPOSE 3000/tcp
+
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
 CMD [ "node", "--es-module-specifier-resolution=node", "--no-warnings", "." ]
