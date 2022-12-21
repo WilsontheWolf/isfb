@@ -7,13 +7,9 @@ services:
     env_file:
       - .env
     volumes:
-      - data:/app/data
-      - backups:/app/backups
-    restart: on-failure:5
+      - ./data:/app/data
+      - ./backups:/app/backups
+    restart: unless-stopped
     stop_grace_period: 10s
     ports:
       - 3000:3000
-
-volumes:
-  data:
-  backups:
