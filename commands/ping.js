@@ -1,12 +1,9 @@
-const { Client, Message } = require('discord.js');
 /**
- * This is a command
- * @param {Client} client
- * @param {Message} message
+ * @param {import('eris').Client} client
+ * @param {import('eris').Message} message
  * @param {String[]} args
- * @param {number} level
  */
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
     const msg = await message.channel.send('Ping?');
     msg.edit(
         `🏓Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`
@@ -17,7 +14,7 @@ exports.conf = {
     enabled: true,
     guildOnly: false,
     aliases: [],
-    permLevel: 'User',
+    privileged: false,
     hidden: true
 };
 

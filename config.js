@@ -8,7 +8,7 @@ const config = {
     support: [],
 
     blocked: [],
-    token: process.env.token,
+    token: process.env.TOKEN,
 
     defaultSettings: {
         prefix: '-',

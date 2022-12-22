@@ -6,7 +6,7 @@ const { Client, Guild } = require('discord.js');
  * @param {Guild} guild
  */
 module.exports = (client, guild) => {
-    client.logger.cmd(
+    console.log(
         `[GUILD JOIN] ${guild.name} (${guild.id}) added the bot. Owner: ${guild.owner.user.tag} (${guild.owner.user.id})`
     );
 };

@@ -13,7 +13,7 @@ exports.run = async (client, message, args, level) => {
         let cmds = client.commands.map(c => c.help.name);
         for(let i = 0; i < cmds.length;i++) await client.unloadCommand(cmds[i]);
         const cmdFiles = await readdir('./commands/');
-        client.logger.log(`Loading a total of ${cmdFiles.length} commands.`);
+        console.log(`Loading a total of ${cmdFiles.length} commands.`);
         cmdFiles.forEach(f => {
             if (!f.endsWith('.js')) return;
             const response = client.loadCommand(f);
