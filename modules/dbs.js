@@ -1,12 +1,13 @@
 const Enmap = require('enmap');
-const config = require('../config');
 
 const settings = new Enmap('settings');
 const internal = new Enmap('internal');
+const times = new Enmap('times');
+const cards = new Enmap('cards');
 
 const initDbs = async () => {
-    settings.ensure('default', config.defaultSettings);
     internal.ensure('cardCount', 0);
+    // TODO: Below when game stuff is ready.
     // for (const game of await games.values){
     //     if (game.state === 'waiting') continue;
     //     else if (game.state === 'displaying') setTimeout(() => {
@@ -27,16 +28,10 @@ const initDbs = async () => {
     // }
 };
 
-/** @param {import('eris').Guild} guild */
-const getSettings = guild => {
-    if (!guild) return settings.get('default');
-    const guildConf = settings.get(guild.id) || {};
-    return { ...settings.get('default'), ...guildConf };
-};
-
 module.exports = {
     settings,
     internal,
+    times,
+    cards,
     initDbs,
-    getSettings,
 };

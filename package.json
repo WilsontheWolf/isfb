@@ -4,7 +4,8 @@
   "description": "Edits and inspects iislands of war game savefiles",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node .",
+    "lint": "eslint . --fix"
   },
   "author": "WilsontheWolf",
   "contributors": [
@@ -13,8 +14,11 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^16.0.1",
-    "enmap": "^5.9.0",
-    "eris": "^0.17.1"
+    "@projectdysnomia/dysnomia": "github:projectdysnomia/dysnomia#dev",
+    "dotenv": "^16.0.3",
+    "enmap": "^5.9.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0"
   }
 }
