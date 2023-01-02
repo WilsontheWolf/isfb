@@ -1,36 +1,30 @@
-const express = require('express');
-const { Client } = require('discord.js');
+const { Constants } = require('@projectdysnomia/dysnomia');
+const { initDbs } = require('../modules/dbs');
+const { commands } = require('../modules/functions');
+
+let commandsRegistered = false;
+
 /**
- * Ready Event
- * @param {Client} client
+ * @param {import('@projectdysnomia/dysnomia').Client} client 
  */
 module.exports = async client => {
-    client.settings.ensure('default', client.config.defaultSettings);
-    client.user.setActivity('Preparing...', { type: 'PLAYING' });
-    client.logger.log(
-        `${client.user.tag}, ready to serve ${client.users.cache.size} users in ${client.guilds.cache.size} servers.`,
-        'ready'
+    console.log(
+        `${client.user.username}, ready to serve ${client.users.size} users in ${client.guilds.size} servers.`
     );
-    client.user.setActivity(`${client.config.defaultSettings.prefix}help`, {
-        type: 'PLAYING'
-    });
-    client.internal.ensure('cardCount', 0);
-    for (const game of await client.games.values){
-        if (game.state === 'waiting') continue;
-        else if (game.state === 'displaying') setTimeout(() => {
-            client.emit('cahNewRound', game.id);
-        }, 5000);
-        else if (game.state === 'voting') setTimeout(async () => {
-            const g = await client.games.get(game.id);
-            if (!g) return;
-            if (g.state !== 'voting' || g.round !== game.round) return;
-            client.emit('cahNewRound', game.id);
-        }, 30000);
-        else if (game.state === 'picking') setTimeout(async () => {
-            const g = await client.games.get(game.id);
-            if (!g) return;
-            if (g.state !== 'picking' || g.round !== game.round) return;
-            client.emit('cahVote', game.id);
-        }, 30000);
+    await initDbs();
+
+    // Register commands
+    if (!commandsRegistered) {
+        console.log('Registering commands...');
+        await client.bulkEditCommands(commands.filter(c => c.bot.enabled).map(c => c.slash))
+            .then(() => console.log('Command registration successful!'))
+            .catch(e => console.error('Error registering commands:', e))
+            .then(() => commandsRegistered = true);
     }
+
+    client.editStatus({
+        name: 'for slash commands',
+        type: Constants.ActivityTypes.WATCHING,
+    });
+
 };

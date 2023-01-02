@@ -1,49 +1,53 @@
-const Discord = require('discord.js');
-const { Client, Message } = require('discord.js');
+const { Constants } = require('@projectdysnomia/dysnomia');
+const { getCachedData } = require('../modules/iaj/caching');
+
 /**
- * This is a command
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- * @param {number} level
+ * @param {import('@projectdysnomia/dysnomia').Client} client
+ * @param {import('@projectdysnomia/dysnomia').CommandInteraction} interaction
  */
-const count = (str) => {
-    const re = /\({0,1}_+\){0,1}/g;
-    return ((str || '').match(re) || []).length;
-};
-exports.run = async (client, message, args, level) => {
-    let user = message.author;
-    let search;
-    if (args[0]) search = await client.fetchUser(args.join(' '), message);
-    if (search) user = search;
-    let black = Object.values(await client.cards.filter(c => c.type == 'black'));
-    let white = Object.values(await client.cards.filter(c => c.type == 'white'));
-    let combos = 0;
-    black.forEach(c => {
-        combos += count(c.value) || 1;
-    });
-    combos = combos * white.length;
-    const embed = new Discord.MessageEmbed()
-        .setTitle('Card Stats')
-        .addField('Total Cards:', await client.cards.size, true)
-        .addField('Black Cards:', black.length, true)
-        .addField('White Cards:', white.length, true)
-        .addField('Unique Combos:', combos, true)
-        .addField(`${user == message.author ? 'Your' : user.username + '\'s'} Cards:`, Object.keys(await client.cards.filter(c => c.owner == user.id)).length, true);
-    message.channel.send(embed);
+exports.run = async (client, interaction) => {
+    const cache = getCachedData();
+    const embed = {
+        title: 'Card Stats',
+        fields: [
+            {
+                name: 'Total Cards:',
+                value: `${cache.black.length + cache.white.length}`,
+                inline: true,
+            },
+            {
+                name: 'Black Cards:',
+                value: `${cache.black.length}`,
+                inline: true,
+            },
+            {
+                name: 'White Cards:',
+                value: `${cache.white.length}`,
+                inline: true,
+            },
+            {
+                name: 'Unique Combos:',
+                value: `${cache.combos}`,
+            },
+        ],
+    };
+        
+    await interaction.createMessage({ embeds: [embed] });
+
 };
 
-exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: [],
-    permLevel: 'User',
-    hidden: false
-};
 
-exports.help = {
+exports.slash = {
+    type: Constants.ApplicationCommandTypes.CHAT_INPUT,
     name: 'cards',
-    category: 'Islands Against Jwiggs',
-    description: 'See how many cards there are for the server\'s IIslands Against Jwiggs competiton.',
-    usage: 'ping'
+    description: 'See some (maybe) interesting stats about the IAJ cards.',
+    options: undefined,
+    dmPermission: true,
+    nsfw: false,
+
+};
+
+exports.bot = {
+    enabled: true,
+    privileged: false,
 };

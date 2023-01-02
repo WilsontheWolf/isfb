@@ -1,68 +1,91 @@
-const Discord = require('discord.js');
-const { Client, Message } = require('discord.js');
+const { Constants } = require('@projectdysnomia/dysnomia');
+const { randomEmbedColor } = require('../modules/constants');
+const { cards } = require('../modules/dbs');
+const { randFromArray } = require('../modules/functions');
+const { getCachedData } = require('../modules/iaj/caching');
+const { replaceSpaces, countSpaces } = require('../modules/iaj/parsing');
+
 /**
- * This is a command
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- * @param {number} level
+ * @param {import('@projectdysnomia/dysnomia').Client} client
+ * @param {import('@projectdysnomia/dysnomia').CommandInteraction} interaction
  */
-exports.run = async (client, message, args, level) => {
-    const count = (str) => {
-        const re = /\({0,1}_+\){0,1}/g;
-        return ((str || '').match(re) || []).length;
-    };
-    let regex = /\({0,1}_+\){0,1}/;
+exports.run = async (client, interaction) => {
+    if (!interaction.user) return interaction.createMessage({ content: 'Something is funky!', flags: Constants.MessageFlags.EPHEMERAL });
+    const userBlack = interaction.data.options?.find(o => o.name === 'black')?.value;
+    const userWhite = interaction.data.options?.find(o => o.name === 'white')?.value;
+    const cache = getCachedData();
     let black;
-    if (!args[0]) black = Object.values(await client.cards.filter(c => c.type == 'black')).random();
-    else black = {
-        type: 'black',
-        owner: message.author.id,
-        value: args.join(' ')
-    };
-    let whites = count(black.value);
-    let white = [];
-    for (let i = 0; i < whites; i++) {
-        let w = Object.values(await client.cards.filter(c => c.type == 'white')).random();
-        if (message.flags[i]) w = {
-            type: 'white',
-            owner: message.author.id,
-            value: message.flags[i].replace(/_/g, ' ')
+    if (!userBlack) black = cards.get(randFromArray(cache.black));
+    else
+        black = {
+            value: userBlack,
+            owner: interaction.user.id,
+            type: 'black',
         };
-        w.name = `Unknown User (${w.owner})`;
-        if (client.users.cache.has(w.owner)) w.name = client.users.cache.get(w.owner).username;
-        white.push(w);
-        black.value = black.value.replace(regex, '**' + w.value + '**');
+
+    let white = [];
+    if (userWhite) white = userWhite.split(',').map(w => ({
+        value: w,
+        owner: interaction.user.id,
+        type: 'white',
+    }));
+
+
+    const count = countSpaces(black.value);
+    if (white.length < count) {
+        const toGet = count - white.length;
+        white.push(...[randFromArray(cache.white, toGet)].flat().map(c => cards.get(c)));
     }
-    if (!whites) {
-        let w = Object.values(await client.cards.filter(c => c.type == 'white')).random();
-        w.name = `Unknown User (${w.owner})`;
-        if (client.users.cache.has(w.owner)) w.name = client.users.cache.get(w.owner).username;
-        white.push(w);
-        black.value += ' **' + w.value + '**';
-    }
-    let bName = `Unknown User (${black.owner})`;
-    if (client.users.cache.has(black.owner)) bName = client.users.cache.get(black.owner).username;
-    const embed = new Discord.MessageEmbed()
-        .setTitle('Random IIslands Against Jwiggs Combo')
-        .setDescription(black.value)
-        .addField('Black Card Submitted By:', bName, true)
-        .addField(`White Card${white.length == 1 ? '' : 's'} Submitted By:`, white.map(w => w.name).filter((v, i, a) => a.indexOf(v) === i).join(', '), true)
-        .setColor('RANDOM');
-    message.channel.send(embed);
+
+    const text = replaceSpaces(black.value, white.map(w => w.value));
+    const embed = {
+        title: 'Random IIslands Against Jwiggs Combo',
+        description: text,
+        color: randomEmbedColor(),
+        fields: [
+            {
+                name: 'Black Card Submitted By:',
+                value: `<@${black.owner}>`,
+                inline: true,
+            },
+            {
+                name: `White Card${white.length === 1 ? '' : 's'} Submitted By:`,
+                value: white.map(w => `<@${w.owner}>`).filter((v, i, a) => a.indexOf(v) === i).join(', '),
+                inline: true,
+            },
+        ],
+    };
+    await interaction.createMessage({ embeds: [embed] });
 };
 
-exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: ['rand', 'randomcard', 'iajrandom'],
-    permLevel: 'User',
-    hidden: false
-};
-
-exports.help = {
+exports.slash = {
+    type: Constants.ApplicationCommandTypes.CHAT_INPUT,
     name: 'random',
-    category: 'Islands Against Jwiggs',
-    description: 'Get a random pair of black and white IIslands Against Jwiggs Cards:tm:.',
-    usage: 'random'
+    description: 'Get a random IIslands Against Jwiggs combo.',
+    options: [
+        {
+            name: 'black',
+            description: 'Optional. Specify the black card.',
+            type: Constants.ApplicationCommandOptionTypes.STRING,
+            required: false,
+            min_length: 1,
+            max_length: 500,
+        },
+        {
+            name: 'white',
+            description: 'Optional. Specify the white card(s). Separate multiple cards with a comma.',
+            type: Constants.ApplicationCommandOptionTypes.STRING,
+            required: false,
+            min_length: 1,
+            max_length: 500
+        }
+    ],
+    dmPermission: true,
+    nsfw: false,
+
+};
+
+exports.bot = {
+    enabled: true,
+    privileged: false,
 };

@@ -1,31 +1,26 @@
-const { Client, Message } = require('discord.js');
+const { Constants } = require('@projectdysnomia/dysnomia');
+
 /**
- * This is a command
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- * @param {number} level
+ * @param {import('@projectdysnomia/dysnomia').Client} client
+ * @param {import('@projectdysnomia/dysnomia').CommandInteraction} interaction
  */
-exports.run = async (client, message, args, level) => {
-    await message.reply('Bot is shutting down.');
-    client.commands.forEach(async cmd => {
-        await client.unloadCommand(cmd);
-    });
-    process.exit(1);
+exports.run = async (client, interaction) => {
+    await interaction.createMessage('Rebooting...');
+    process.exit(0); // TODO: Clean reboot???
 };
 
-exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: [],
-    permLevel: 'Bot Admin',
-    hidden: true
-};
 
-exports.help = {
+exports.slash = {
+    type: Constants.ApplicationCommandTypes.CHAT_INPUT,
     name: 'reboot',
-    category: 'System',
-    description:
-    'Shuts down the bot. If running under PM2, bot will restart automatically.',
-    usage: 'reboot'
+    description: 'Reboots the bot (if under a process manager).',
+    options: undefined,
+    dmPermission: true,
+    nsfw: false,
+
+};
+
+exports.bot = {
+    enabled: true,
+    privileged: true,
 };

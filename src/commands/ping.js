@@ -1,29 +1,29 @@
-const { Client, Message } = require('discord.js');
+const { Constants } = require('@projectdysnomia/dysnomia');
+
 /**
- * This is a command
- * @param {Client} client
- * @param {Message} message
- * @param {String[]} args
- * @param {number} level
+ * @param {import('@projectdysnomia/dysnomia').Client} client
+ * @param {import('@projectdysnomia/dysnomia').CommandInteraction} interaction
  */
-exports.run = async (client, message, args, level) => {
-    const msg = await message.channel.send('Ping?');
+exports.run = async (client, interaction) => {
+    await interaction.defer();
+    const msg = await interaction.editOriginalMessage('Ping?');
     msg.edit(
-        `🏓Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`
+        `🏓Pong! Latency is ${msg.createdAt - interaction.createdAt}ms. API Latency is ${client.shards.find(s => s)?.latency || '???'}ms`
     );
 };
 
-exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: [],
-    permLevel: 'User',
-    hidden: true
+
+exports.slash = {
+    type: Constants.ApplicationCommandTypes.CHAT_INPUT,
+    name: 'ping',
+    description: 'Pong! See the latency of the bot.',
+    options: undefined,
+    dmPermission: true,
+    nsfw: false,
+
 };
 
-exports.help = {
-    name: 'ping',
-    category: 'Miscelaneous',
-    description: 'It like... Pings. Then Pongs. And it\'s not Ping Pong.',
-    usage: 'ping'
+exports.bot = {
+    enabled: true,
+    privileged: false,
 };
