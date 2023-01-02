@@ -31,7 +31,7 @@ exports.run = async (client, interaction) => {
     }));
 
 
-    const count = countSpaces(black.value);
+    const count = countSpaces(black.value) || 1;
     if (white.length < count) {
         const toGet = count - white.length;
         white.push(...[randFromArray(cache.white, toGet)].flat().map(c => cards.get(c)));
@@ -55,6 +55,7 @@ exports.run = async (client, interaction) => {
             },
         ],
     };
+
     await interaction.createMessage({ embeds: [embed] });
 };
 
