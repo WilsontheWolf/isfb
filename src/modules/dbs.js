@@ -1,6 +1,5 @@
 const Enmap = require('enmap');
 
-const settings = new Enmap('settings');
 const internal = new Enmap('internal');
 const times = new Enmap('times');
 const cards = new Enmap('cards');
@@ -29,7 +28,6 @@ const initDbs = async () => {
 };
 
 module.exports = {
-    settings,
     internal,
     times,
     cards,
