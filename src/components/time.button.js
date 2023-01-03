@@ -27,7 +27,7 @@ exports.run = async (client, interaction) => {
                             max_length: 30,
                             placeholder: 'America/Edmonton',
                             required: true,
-                            value: typeof data.offset === 'number' ? convertOffsetToTimezone(data.offset) : data.offset,
+                            value: typeof data?.offset === 'number' ? convertOffsetToTimezone(data.offset) : data?.offset,
                         },
                     ]
                 }
