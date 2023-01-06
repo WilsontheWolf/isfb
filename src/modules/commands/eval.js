@@ -1,6 +1,9 @@
 const { Constants } = require('@projectdysnomia/dysnomia');
 const { embedColours } = require('../constants');
 
+const sharedRegex = '(?=^\\w|$|[^a-zA-Z0-9_\'".)\\]\\-+;:/%\\]\\w|[^a-zA-Z0-9_\'".)\\]\\-+;:/%\\\\])';
+const colourRegex = new RegExp('(?:^.+?)' + sharedRegex, 'i');
+
 /**
  * @param {import('@projectdysnomia/dysnomia').CommandInteraction | import('@projectdysnomia/dysnomia').ModalSubmitInteraction} interaction 
  * @param {string} code 
@@ -35,11 +38,29 @@ const handleEval = async (interaction, code, hidden) => {
             let error = lint.find(e => e.fatal);
             if (error) {
                 let line = code.split('\n')[error.line - 1];
-                let match = line.slice(error.column - 1).match(/\w+/i);
-                let length = match ? match[0].length : 1;
-                response = `${line}
-${' '.repeat(error.column - 1)}${'^'.repeat(length)}
-[${error.line}:${error.column}] ${error.message} `;
+                let match = line.slice(error.column - 1).match(colourRegex);
+                let length = error.endColumn || (match?.[0].length ?? 1);
+                const lineLength = line.length;
+                if (lineLength >= 50)
+                    line = line
+                        .replace(
+                            new RegExp(
+                                `^.{${Math.floor(error.column / 2)},${error.column
+                                }}?${sharedRegex}`
+                            ),
+                            '$`'
+                        )
+                        .trimStart();
+                const cutLength = lineLength - line.length;
+                // Insert ansi escape codes to make the error message pop out
+                // Do the closing one first so it doesn't mess up the length
+                line = line.split('');
+                line.splice(error.column - 1 - cutLength + length, 0, '\u001b[0m');
+                line.splice(error.column - 1 - cutLength, 0, '\u001b[1;34m');
+                line = line.join('');
+                response = `ansi\n${line}
+\u001b[1;31m${' '.repeat(error.column - 1 - cutLength)}${'^'.repeat(length)}
+[${error.line}:${error.column}] ${error.message}\u001b[0m`;
             }
         } catch (e) { }
     }
