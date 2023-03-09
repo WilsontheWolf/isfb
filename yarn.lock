@@ -57,9 +57,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@projectdysnomia/dysnomia@github:projectdysnomia/dysnomia#dev":
-  version "0.1.0-dev"
-  resolved "https://codeload.github.com/projectdysnomia/dysnomia/tar.gz/80af5c7c365193dc65d5e8d0aada8065e0df7c12"
+"@projectdysnomia/dysnomia@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@projectdysnomia/dysnomia/-/dysnomia-0.1.0.tgz#54b393daee3405764e2159393531e4b126339a52"
+  integrity sha512-AGJJLOvyYAR0afVIr2xWT1Q00pXP891H1LsBwZn0j+CwCb6Dv+9fnQpOn5NuWTnkbzx0Iv3k2YSwQykg3HDntw==
   dependencies:
     ws "^8.2.3"
   optionalDependencies:
